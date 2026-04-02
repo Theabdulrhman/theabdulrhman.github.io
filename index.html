@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cat Memes & Videos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1a1a2e;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #f5a623;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #f5a623;
+      margin: 40px 0 20px;
+    }
+
+    /* Videos */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .video-card {
+      background: #16213e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 200px;
+      border: none;
+      display: block;
+    }
+
+    .video-card p {
+      padding: 12px;
+      font-size: 0.95rem;
+      color: #ccc;
+      text-align: center;
+    }
+
+    /* Memes */
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .meme-card {
+      background: #16213e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .meme-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .meme-card p {
+      padding: 12px;
+      font-size: 1rem;
+      color: #f5a623;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #555;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🐱 Cat Memes & Videos</h1>
+    <p>The internet belongs to cats. Always has. Always will.</p>
+  </header>
+
+  <!-- Cat Videos -->
+  <h2 class="section-title">🎬 Cat Videos</h2>
+  <div class="video-grid">
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/vnDi_b5yUhQ" allowfullscreen></iframe>
+      <p>Funny Cats Compilation 😂</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/SaA_cs4WZHM" allowfullscreen></iframe>
+      <p>Cats Being Derps 🐾</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/DiUte6pCzUA" allowfullscreen></iframe>
+      <p>Cute Kittens Doing Things 🐈</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/SkzWMOapDEA" allowfullscreen></iframe>
+      <p>Cat Fails & Wins 🏆</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/hY7m5jjJ9mM" allowfullscreen></iframe>
+      <p>Cats vs Cucumbers 🥒😱</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/J---aiyznGQ" allowfullscreen></iframe>
+      <p>Keyboard Cat (The Legend) 🎹</p>
+    </div>
+
+  </div>
+
+  <!-- Cat Memes -->
+  <h2 class="section-title">😹 Cat Memes</h2>
+  <div class="meme-grid">
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/I%20Can%20Haz%20Cheezburger%3F" alt="Cat Meme" />
+      <p>I Can Haz Cheezburger?</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/Monday%20is%20ruff" alt="Cat Meme" />
+      <p>Monday is Ruff 😾</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/This%20is%20fine" alt="Cat Meme" />
+      <p>This is Fine 🔥</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/Leave%20me%20alone" alt="Cat Meme" />
+      <p>Leave Me Alone 😤</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/I%20owns%20you" alt="Cat Meme" />
+      <p>I Owns You 😼</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cataas.com/cat/says/No%20thoughts%2C%20head%20empty" alt="Cat Meme" />
+      <p>No Thoughts, Head Empty 🫠</p>
+    </div>
+
+  </div>
+
+  <footer>
+    Made with ❤️ and cat hair · abdulrhmanalshehri.sa · <a href="https://github.com/theabdulrhman" style="color:#f5a623;">@theabdulrhman</a>
+  </footer>
+
+</body>
+</html>
