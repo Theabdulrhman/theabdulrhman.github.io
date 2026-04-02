@@ -8,67 +8,63 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #3a6ea5;
       background-image: url('https://upload.wikimedia.org/wikipedia/en/6/6a/Windows_XP_Bliss_1600.png');
       background-size: cover;
       background-position: center;
       font-family: 'Tahoma', sans-serif;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Desktop icon button */
+    /* ── DESKTOP ── */
+    .desktop {
+      width: 100%;
+      height: calc(100vh - 36px);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
     .desktop-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
       user-select: none;
-      width: 80px;
+      width: 72px;
     }
 
-    .desktop-icon img {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 6px;
+    .desktop-icon .icon-img {
+      font-size: 36px;
+      margin-bottom: 4px;
     }
 
     .desktop-icon span {
       color: white;
-      font-size: 12px;
+      font-size: 11px;
       text-align: center;
       text-shadow: 1px 1px 2px black;
-      background: rgba(0,0,100,0.3);
       padding: 1px 4px;
     }
 
-    .desktop-icon:hover span {
-      background: #316ac5;
-    }
+    .desktop-icon:hover span { background: #316ac5; }
 
-    /* XP Window */
+    /* ── XP WINDOW BASE ── */
     .xp-window {
       display: none;
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 660px;
-      max-width: 95vw;
       box-shadow: 2px 2px 8px rgba(0,0,0,0.6);
       border: 2px solid #003087;
       border-radius: 8px 8px 4px 4px;
       z-index: 100;
-      resize: both;
-      overflow: auto;
+      min-width: 300px;
     }
 
     .xp-window.active { display: block; }
 
-    /* Title bar */
     .xp-titlebar {
       background: linear-gradient(to bottom, #0a84e8 0%, #1058c7 4%, #2970d6 8%, #235ebe 50%, #1a52b2 51%, #0e45a8 100%);
       padding: 4px 6px;
@@ -84,245 +80,279 @@
       display: flex;
       align-items: center;
       gap: 6px;
-    }
-
-    .xp-titlebar-left img {
-      width: 16px;
-      height: 16px;
-    }
-
-    .xp-titlebar-left span {
       color: white;
       font-size: 12px;
       font-weight: bold;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    .xp-titlebar-buttons {
-      display: flex;
-      gap: 2px;
-    }
+    .xp-titlebar-buttons { display: flex; gap: 2px; }
 
     .xp-btn {
-      width: 21px;
-      height: 21px;
-      border: none;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
-      color: white;
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 21px; height: 21px;
+      border: none; cursor: pointer;
+      font-size: 11px; font-weight: bold;
+      color: white; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    .xp-btn-minimize {
-      background: linear-gradient(to bottom, #6eb4f7, #2e6fd4);
-      border: 1px solid #1a4fa0;
-    }
-
-    .xp-btn-maximize {
-      background: linear-gradient(to bottom, #6eb4f7, #2e6fd4);
-      border: 1px solid #1a4fa0;
-    }
-
-    .xp-btn-close {
-      background: linear-gradient(to bottom, #f07070, #c82020);
-      border: 1px solid #8b0000;
-    }
-
+    .xp-btn-min { background: linear-gradient(to bottom,#6eb4f7,#2e6fd4); border:1px solid #1a4fa0; }
+    .xp-btn-max { background: linear-gradient(to bottom,#6eb4f7,#2e6fd4); border:1px solid #1a4fa0; }
+    .xp-btn-close { background: linear-gradient(to bottom,#f07070,#c82020); border:1px solid #8b0000; }
     .xp-btn:hover { filter: brightness(1.2); }
     .xp-btn:active { filter: brightness(0.9); }
 
-    /* Window body */
-    .xp-body {
-      background: #ece9d8;
-      border-top: 1px solid #fff;
-    }
+    .xp-body { background: #ece9d8; border-top: 1px solid #fff; }
 
-    /* Menu bar */
     .xp-menubar {
       background: #ece9d8;
       padding: 2px 4px;
-      display: flex;
-      gap: 2px;
+      display: flex; gap: 2px;
       border-bottom: 1px solid #aca899;
     }
 
     .xp-menubar span {
-      font-size: 12px;
-      padding: 2px 6px;
-      cursor: pointer;
-      color: #000;
+      font-size: 12px; padding: 2px 6px; cursor: pointer; color: #000;
     }
 
-    .xp-menubar span:hover {
-      background: #316ac5;
-      color: white;
-    }
+    .xp-menubar span:hover { background: #316ac5; color: white; }
 
-    /* Toolbar */
     .xp-toolbar {
-      background: linear-gradient(to bottom, #f5f3ee, #dedad0);
+      background: linear-gradient(to bottom,#f5f3ee,#dedad0);
       padding: 4px 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      border-bottom: 1px solid #aca899;
-      font-size: 12px;
+      display: flex; align-items: center; gap: 4px;
+      border-bottom: 1px solid #aca899; font-size: 12px;
     }
 
     .xp-toolbar-btn {
-      background: linear-gradient(to bottom, #fff, #ddd);
+      background: linear-gradient(to bottom,#fff,#ddd);
       border: 1px solid #aca899;
-      padding: 2px 8px;
-      font-size: 11px;
-      cursor: pointer;
-      border-radius: 2px;
+      padding: 2px 8px; font-size: 11px;
+      cursor: pointer; border-radius: 2px;
     }
 
-    .xp-toolbar-btn:hover { background: linear-gradient(to bottom, #def, #acf); }
+    .xp-toolbar-btn:hover { background: linear-gradient(to bottom,#def,#acf); }
+    .xp-address { flex:1; background:white; border:1px inset #999; padding:2px 6px; font-size:12px; color:#333; }
 
-    .xp-address {
-      flex: 1;
-      background: white;
-      border: 1px inset #999;
-      padding: 2px 6px;
-      font-size: 12px;
-      color: #333;
-    }
-
-    /* Content area */
-    .xp-content {
-      padding: 0;
-      background: white;
-    }
-
-    .xp-content iframe {
-      width: 100%;
-      height: 360px;
-      border: none;
-      display: block;
-    }
-
-    /* Status bar */
     .xp-statusbar {
-      background: #ece9d8;
-      border-top: 1px solid #aca899;
-      padding: 2px 8px;
-      font-size: 11px;
-      color: #444;
+      background: #ece9d8; border-top: 1px solid #aca899;
+      padding: 2px 8px; font-size: 11px; color: #444;
+      display: flex; gap: 12px;
+    }
+
+    .xp-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
+
+    /* ── VIDEO WINDOW ── */
+    #videoWindow { width: 660px; max-width: 95vw; top: 40px; left: 80px; }
+
+    #videoWindow .xp-content iframe {
+      width: 100%; height: 360px; border: none; display: block;
+    }
+
+    /* ── TERMINAL WINDOW ── */
+    #terminalWindow { width: 580px; max-width: 95vw; top: 60px; left: 120px; }
+
+    .terminal-body {
+      background: #000;
+      padding: 8px;
+      height: 320px;
       display: flex;
-      gap: 12px;
+      flex-direction: column;
     }
 
-    .xp-statusbar span {
-      border-right: 1px solid #aca899;
-      padding-right: 12px;
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      color: #c0c0c0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
 
-    /* Taskbar */
-    .xp-taskbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 36px;
-      background: linear-gradient(to bottom, #245dce 0%, #3f8cf0 4%, #245dce 6%, #1c4fbb 50%, #1a4db9 51%, #1347b2 100%);
+    .terminal-output .line { margin-bottom: 2px; white-space: pre-wrap; }
+    .terminal-output .prompt { color: #c0c0c0; }
+    .terminal-output .response { color: #c0c0c0; }
+    .terminal-output .error { color: #c0c0c0; }
+
+    .terminal-input-row {
       display: flex;
       align-items: center;
+      gap: 4px;
+      color: #c0c0c0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .terminal-input-row span { white-space: nowrap; }
+
+    .terminal-input-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #c0c0c0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      caret-color: #c0c0c0;
+    }
+
+    /* ── TASKBAR ── */
+    .xp-taskbar {
+      position: fixed; bottom: 0; left: 0;
+      width: 100%; height: 36px;
+      background: linear-gradient(to bottom,#245dce 0%,#3f8cf0 4%,#245dce 6%,#1c4fbb 50%,#1a4db9 51%,#1347b2 100%);
+      display: flex; align-items: center;
       z-index: 200;
       box-shadow: 0 -1px 0 #0a2d8e;
     }
 
     .xp-start {
-      background: linear-gradient(to bottom, #57a818, #3d7a0e);
+      background: linear-gradient(to bottom,#57a818,#3d7a0e);
       border: 1px solid #2a5a08;
       border-radius: 0 12px 12px 0;
-      padding: 4px 12px 4px 8px;
-      color: white;
-      font-weight: bold;
-      font-size: 13px;
+      padding: 4px 14px 4px 10px;
+      color: white; font-weight: bold; font-size: 14px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      height: 28px;
-      margin-left: 2px;
+      display: flex; align-items: center; gap: 6px;
+      height: 30px; margin-left: 2px;
       box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+      font-style: italic;
     }
 
     .xp-start:hover { filter: brightness(1.1); }
 
-    .xp-start img { width: 18px; height: 18px; }
-
-    .xp-taskbar-items {
-      display: flex;
-      gap: 4px;
-      padding: 0 8px;
-      flex: 1;
-    }
+    .xp-taskbar-items { display: flex; gap: 4px; padding: 0 8px; flex: 1; }
 
     .xp-taskbar-item {
-      background: linear-gradient(to bottom, #1a4db9, #2e6fd4);
-      border: 1px solid #0a2d8e;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid #1a4fa0;
       border-radius: 3px;
       padding: 2px 10px;
-      color: white;
-      font-size: 12px;
+      color: white; font-size: 12px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      display: none; align-items: center; gap: 4px;
+      min-width: 120px;
     }
 
-    .xp-taskbar-item:hover { filter: brightness(1.2); }
+    .xp-taskbar-item.visible { display: flex; }
+    .xp-taskbar-item:hover { background: rgba(255,255,255,0.15); }
 
     .xp-clock {
-      color: white;
-      font-size: 12px;
-      padding: 0 12px;
-      text-align: right;
+      color: white; font-size: 11px;
+      padding: 0 10px; text-align: center;
+      border-left: 1px solid #1a4fa0;
     }
 
-    /* Overlay */
-    .overlay {
+    /* ── START MENU ── */
+    .start-menu {
       display: none;
       position: fixed;
-      inset: 0;
-      background: transparent;
-      z-index: 50;
+      bottom: 36px;
+      left: 0;
+      width: 340px;
+      background: white;
+      border: 1px solid #003087;
+      border-radius: 8px 8px 0 0;
+      z-index: 300;
+      overflow: hidden;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.5);
     }
-    .overlay.active { display: block; }
+
+    .start-menu.active { display: block; }
+
+    .start-menu-header {
+      background: linear-gradient(to right, #1a52b2, #3a82e8);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .start-menu-header .avatar {
+      width: 44px; height: 44px;
+      border-radius: 4px;
+      border: 2px solid white;
+      font-size: 28px;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+    }
+
+    .start-menu-header span {
+      color: white; font-weight: bold; font-size: 14px;
+    }
+
+    .start-menu-body { display: flex; }
+
+    .start-menu-left {
+      flex: 1;
+      border-right: 1px solid #ddd;
+      padding: 6px 0;
+    }
+
+    .start-menu-right {
+      width: 140px;
+      background: #dce5f7;
+      padding: 6px 0;
+    }
+
+    .menu-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #000;
+    }
+
+    .menu-item:hover { background: #316ac5; color: white; }
+    .menu-item .icon { font-size: 22px; width: 28px; text-align: center; }
+
+    .menu-divider {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 4px 0;
+    }
+
+    .start-menu-right .menu-item { font-size: 12px; }
+
+    .start-menu-footer {
+      background: linear-gradient(to right,#1a52b2,#3a82e8);
+      padding: 4px 12px;
+      display: flex; justify-content: flex-end; gap: 16px;
+    }
+
+    .start-menu-footer button {
+      background: none; border: none;
+      color: white; font-size: 11px;
+      cursor: pointer; display: flex; align-items: center; gap: 4px;
+    }
+
+    .start-menu-footer button:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <!-- Desktop Icon -->
-  <div class="desktop-icon" ondblclick="openWindow()">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/48px-Camponotus_flavomarginatus_ant.jpg"
-         onerror="this.src='https://win98icons.alexmeub.com/icons/png/media_player_stream_video-0.png'"
-         alt="cat video" />
-    <span>Cat Video</span>
+  <!-- Desktop -->
+  <div class="desktop">
+    <div class="desktop-icon" ondblclick="openVideo()">
+      <div class="icon-img">🐱</div>
+      <span>Cat Video</span>
+    </div>
+    <div class="desktop-icon" ondblclick="openTerminal()">
+      <div class="icon-img">🖥️</div>
+      <span>Terminal</span>
+    </div>
   </div>
-  <p style="color:white;font-size:11px;text-shadow:1px 1px 2px black;margin-top:4px;">Double-click to open</p>
 
-  <!-- XP Window -->
-  <div class="xp-window" id="xpWindow">
-    <div class="xp-titlebar" id="titlebar">
-      <div class="xp-titlebar-left">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Iexplore.png/16px-Iexplore.png"
-             onerror="this.style.display='none'" alt="" />
-        <span>Cat Video - Windows Internet Explorer</span>
-      </div>
+  <!-- Video Window -->
+  <div class="xp-window" id="videoWindow">
+    <div class="xp-titlebar" data-win="videoWindow">
+      <div class="xp-titlebar-left">🐱 Cat Video — Windows Internet Explorer</div>
       <div class="xp-titlebar-buttons">
-        <button class="xp-btn xp-btn-minimize" onclick="closeWindow()">&#8722;</button>
-        <button class="xp-btn xp-btn-maximize">&#9744;</button>
-        <button class="xp-btn xp-btn-close" onclick="closeWindow()">&#10005;</button>
+        <button class="xp-btn xp-btn-min" onclick="minimizeWin('videoWindow','taskVideo')">&#8722;</button>
+        <button class="xp-btn xp-btn-max">&#9744;</button>
+        <button class="xp-btn xp-btn-close" onclick="closeWin('videoWindow','taskVideo')">&#10005;</button>
       </div>
     </div>
-
     <div class="xp-body">
       <div class="xp-menubar">
         <span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span>
@@ -330,93 +360,236 @@
       <div class="xp-toolbar">
         <button class="xp-toolbar-btn">&#9664; Back</button>
         <button class="xp-toolbar-btn">Forward &#9654;</button>
-        <button class="xp-toolbar-btn">&#10227; Refresh</button>
-        <button class="xp-toolbar-btn">🏠 Home</button>
-        <div class="xp-address">https://abdulrhmanalshehri.sa/cat-video</div>
+        <button class="xp-toolbar-btn">&#10227;</button>
+        <div class="xp-address">https://abdulrhmanalshehri.sa</div>
         <button class="xp-toolbar-btn">Go</button>
       </div>
       <div class="xp-content">
-        <iframe id="videoFrame"
-          src="https://www.youtube.com/embed/KC6cPq-NmuU?autoplay=1"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-        </iframe>
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/KC6cPq-NmuU?autoplay=1"
+          allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
-      <div class="xp-statusbar">
-        <span>Done</span>
-        <span>Internet</span>
+      <div class="xp-statusbar"><span>Done</span><span>Internet</span></div>
+    </div>
+  </div>
+
+  <!-- Terminal Window -->
+  <div class="xp-window" id="terminalWindow">
+    <div class="xp-titlebar" data-win="terminalWindow">
+      <div class="xp-titlebar-left">🖥️ Command Prompt</div>
+      <div class="xp-titlebar-buttons">
+        <button class="xp-btn xp-btn-min" onclick="minimizeWin('terminalWindow','taskTerminal')">&#8722;</button>
+        <button class="xp-btn xp-btn-max">&#9744;</button>
+        <button class="xp-btn xp-btn-close" onclick="closeWin('terminalWindow','taskTerminal')">&#10005;</button>
       </div>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-output" id="termOutput">
+        <div class="line">Microsoft Windows XP [Version 5.1.2600]</div>
+        <div class="line">(C) Copyright 1985-2001 Microsoft Corp.</div>
+        <div class="line">&nbsp;</div>
+      </div>
+      <div class="terminal-input-row">
+        <span>C:\></span>
+        <input type="text" id="termInput" autocomplete="off" spellcheck="false"
+               onkeydown="handleTerminal(event)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Menu -->
+  <div class="start-menu" id="startMenu">
+    <div class="start-menu-header">
+      <div class="avatar">👤</div>
+      <span>theabdulrhman</span>
+    </div>
+    <div class="start-menu-body">
+      <div class="start-menu-left">
+        <div class="menu-item" ondblclick="openVideo(); closeStartMenu()">
+          <span class="icon">🐱</span> Cat Video
+        </div>
+        <div class="menu-item" onclick="openTerminal(); closeStartMenu()">
+          <span class="icon">🖥️</span> Command Prompt
+        </div>
+        <hr class="menu-divider" />
+        <div class="menu-item">
+          <span class="icon">🌐</span> Internet Explorer
+        </div>
+        <div class="menu-item">
+          <span class="icon">📧</span> Outlook Express
+        </div>
+        <div class="menu-item">
+          <span class="icon">🎵</span> Windows Media Player
+        </div>
+        <div class="menu-item">
+          <span class="icon">🎨</span> Paint
+        </div>
+        <div class="menu-item">
+          <span class="icon">📝</span> Notepad
+        </div>
+      </div>
+      <div class="start-menu-right">
+        <div class="menu-item"><span class="icon">📁</span> My Documents</div>
+        <div class="menu-item"><span class="icon">🖼️</span> My Pictures</div>
+        <div class="menu-item"><span class="icon">🎵</span> My Music</div>
+        <div class="menu-item"><span class="icon">💻</span> My Computer</div>
+        <hr class="menu-divider" />
+        <div class="menu-item"><span class="icon">⚙️</span> Control Panel</div>
+        <div class="menu-item"><span class="icon">🖨️</span> Printers</div>
+        <div class="menu-item"><span class="icon">❓</span> Help</div>
+        <div class="menu-item"><span class="icon">🔍</span> Search</div>
+        <div class="menu-item"><span class="icon">▶️</span> Run...</div>
+      </div>
+    </div>
+    <div class="start-menu-footer">
+      <button>🔴 Turn Off Computer</button>
+      <button>🔒 Log Off</button>
     </div>
   </div>
 
   <!-- Taskbar -->
   <div class="xp-taskbar">
-    <div class="xp-start">
-      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1e/Windows_XP_Logo.svg/18px-Windows_XP_Logo.svg.png"
-           onerror="this.style.display='none'" alt=""/>
-      start
+    <div class="xp-start" onclick="toggleStartMenu()">
+      <span>&#127381;</span> start
     </div>
     <div class="xp-taskbar-items">
-      <div class="xp-taskbar-item" id="taskbarItem" style="display:none" onclick="toggleWindow()">
+      <div class="xp-taskbar-item" id="taskVideo" onclick="restoreWin('videoWindow')">
         🐱 Cat Video
+      </div>
+      <div class="xp-taskbar-item" id="taskTerminal" onclick="restoreWin('terminalWindow')">
+        🖥️ Command Prompt
       </div>
     </div>
     <div class="xp-clock" id="clock"></div>
   </div>
 
   <script>
-    // Clock
+    // ── Clock ──
     function updateClock() {
       const now = new Date();
-      document.getElementById('clock').textContent =
-        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + '\n' +
+      document.getElementById('clock').innerHTML =
+        now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + '<br>' +
         now.toLocaleDateString();
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+    updateClock(); setInterval(updateClock, 1000);
 
-    // Window controls
-    function openWindow() {
-      document.getElementById('xpWindow').classList.add('active');
-      document.getElementById('taskbarItem').style.display = 'flex';
+    // ── Window open/close ──
+    function openVideo() {
+      showWin('videoWindow', 'taskVideo');
+      document.getElementById('videoFrame').src =
+        'https://www.youtube.com/embed/KC6cPq-NmuU?autoplay=1';
     }
 
-    function closeWindow() {
-      document.getElementById('xpWindow').classList.remove('active');
-      document.getElementById('taskbarItem').style.display = 'none';
-      // Stop video
-      const frame = document.getElementById('videoFrame');
-      frame.src = frame.src;
+    function openTerminal() {
+      showWin('terminalWindow', 'taskTerminal');
+      setTimeout(() => document.getElementById('termInput').focus(), 100);
     }
 
-    function toggleWindow() {
-      document.getElementById('xpWindow').classList.toggle('active');
+    function showWin(winId, taskId) {
+      const win = document.getElementById(winId);
+      win.classList.add('active');
+      win.style.zIndex = nextZ();
+      document.getElementById(taskId).classList.add('visible');
     }
 
-    // Draggable window
-    const win = document.getElementById('xpWindow');
-    const titlebar = document.getElementById('titlebar');
-    let isDragging = false, startX, startY, origX, origY;
+    function closeWin(winId, taskId) {
+      document.getElementById(winId).classList.remove('active');
+      document.getElementById(taskId).classList.remove('visible');
+      if (winId === 'videoWindow') {
+        const f = document.getElementById('videoFrame');
+        f.src = f.src;
+      }
+    }
 
-    titlebar.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      const rect = win.getBoundingClientRect();
-      origX = rect.left;
-      origY = rect.top;
-      win.style.transform = 'none';
-      win.style.left = origX + 'px';
-      win.style.top = origY + 'px';
+    function minimizeWin(winId, taskId) {
+      document.getElementById(winId).classList.remove('active');
+    }
+
+    function restoreWin(winId) {
+      const win = document.getElementById(winId);
+      win.classList.add('active');
+      win.style.zIndex = nextZ();
+    }
+
+    let zCounter = 100;
+    function nextZ() { return ++zCounter; }
+
+    // ── Start menu ──
+    function toggleStartMenu() {
+      document.getElementById('startMenu').classList.toggle('active');
+    }
+
+    function closeStartMenu() {
+      document.getElementById('startMenu').classList.remove('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('startMenu');
+      const startBtn = document.querySelector('.xp-start');
+      if (!menu.contains(e.target) && !startBtn.contains(e.target)) {
+        closeStartMenu();
+      }
     });
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      win.style.left = (origX + e.clientX - startX) + 'px';
-      win.style.top = (origY + e.clientY - startY) + 'px';
-    });
+    // ── Terminal ──
+    function handleTerminal(e) {
+      if (e.key !== 'Enter') return;
+      const input = document.getElementById('termInput');
+      const output = document.getElementById('termOutput');
+      const cmd = input.value.trim();
+      input.value = '';
 
-    document.addEventListener('mouseup', () => { isDragging = false; });
+      const promptLine = document.createElement('div');
+      promptLine.className = 'line prompt';
+      promptLine.textContent = 'C:\\> ' + cmd;
+      output.appendChild(promptLine);
+
+      const respLine = document.createElement('div');
+      respLine.className = 'line response';
+
+      const normalized = cmd.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim();
+
+      if (normalized === 'who is my fav person in the world') {
+        respLine.textContent = 'lollyyyyyy';
+      } else if (cmd === '') {
+        respLine.textContent = '';
+      } else {
+        respLine.className = 'line error';
+        respLine.textContent = "'" + cmd + "' is not recognized as an internal or external command.";
+      }
+
+      output.appendChild(respLine);
+      const spacer = document.createElement('div');
+      spacer.className = 'line';
+      spacer.textContent = '';
+      output.appendChild(spacer);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    // ── Draggable windows ──
+    document.querySelectorAll('.xp-titlebar').forEach(bar => {
+      let dragging = false, sx, sy, ox, oy;
+      const winEl = bar.closest('.xp-window');
+
+      bar.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('xp-btn')) return;
+        dragging = true;
+        sx = e.clientX; sy = e.clientY;
+        const r = winEl.getBoundingClientRect();
+        ox = r.left; oy = r.top;
+        winEl.style.transform = 'none';
+        winEl.style.left = ox + 'px';
+        winEl.style.top = oy + 'px';
+        winEl.style.zIndex = nextZ();
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        winEl.style.left = (ox + e.clientX - sx) + 'px';
+        winEl.style.top  = (oy + e.clientY - sy) + 'px';
+      });
+
+      document.addEventListener('mouseup', () => { dragging = false; });
+    });
   </script>
 
 </body>
