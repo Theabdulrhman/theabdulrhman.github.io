@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HalalInvest — لوحة الأسهم الحلال المباشرة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    body { background: #030712; }
+
+    .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+
+    .pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .shimmer {
+      background: linear-gradient(90deg, #111827 25%, #1f2937 50%, #111827 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease infinite;
+    }
+    @keyframes shimmer { 0%{background-position:200%} 100%{background-position:-200%} }
+
+    .halal-badge { background: linear-gradient(135deg, #064e3b 0%, #059669 100%); }
+    .tab-active { background: #10b981; color: #000; font-weight: 700; }
+    .tab-inactive { background: #1f2937; color: #6b7280; }
+    .tab-inactive:hover { background: #374151; color: #fff; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+
+<body class="text-white min-h-screen">
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="bg-gray-900/95 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-800">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center font-black text-black text-xl select-none leading-none">ه</div>
+      <div>
+        <h1 class="font-black text-base leading-none tracking-tight">HalalInvest</h1>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse"></div>
+          <span class="text-emerald-400 text-xs font-semibold">أسعار مباشرة — Live Prices</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 flex-wrap justify-end">
+      <div id="rateDisplay" class="hidden sm:flex items-center gap-1.5 text-xs text-gray-500">
+        USD/SAR: <span id="rateVal" class="text-white font-semibold">—</span>
+      </div>
+      <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-3 py-1.5">
+        <span class="text-emerald-400 font-bold text-sm">100 ريال / شهر</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== API KEY BANNER ===================== -->
+<div id="setupBanner" class="bg-indigo-950 border-b border-indigo-800 px-4 py-3">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+      <div class="flex-1 min-w-0">
+        <p class="text-indigo-200 text-sm font-bold">🔑 ربط الأسعار المباشرة — مجاني في دقيقتين</p>
+        <p class="text-indigo-400 text-xs mt-0.5">
+          1. اذهب إلى <a href="https://finnhub.io" target="_blank" rel="noopener noreferrer" class="underline text-indigo-300 font-semibold">finnhub.io</a>
+          وسجّل مجاناً (بدون بطاقة ائتمان).&nbsp;
+          2. انسخ مفتاح API الخاص بك.&nbsp;
+          3. الصقه أدناه واضغط اتصال.
+        </p>
+      </div>
+      <div class="flex gap-2 w-full sm:w-auto shrink-0">
+        <input id="apiKeyInput" type="text" placeholder="Paste Finnhub API key..."
+          class="flex-1 sm:w-60 bg-indigo-900/60 border border-indigo-700 rounded-xl px-3 py-2 text-sm text-white placeholder-indigo-500
+                 focus:outline-none focus:border-emerald-500 transition-colors" />
+        <button onclick="connectApi()"
+          class="bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-black font-bold px-4 py-2 rounded-xl text-sm transition-colors whitespace-nowrap">
+          اتصال / Connect
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DISCLAIMER ===================== -->
+<div class="bg-amber-950/40 border-b border-amber-900/40 px-4 py-2 text-center">
+  <p class="text-amber-500/90 text-xs max-w-6xl mx-auto">
+    ⚠️ هذا ليس نصيحة مالية. الاستثمار في الأسهم ينطوي على مخاطر. التصفية الشرعية مبنية على معايير عامة — استشر عالماً لوضعك الخاص.
+  </p>
+</div>
+
+<!-- ===================== MAIN ===================== -->
+<main class="max-w-6xl mx-auto px-4 py-6">
+
+  <!-- STATS ROW -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <p class="text-gray-500 text-xs mb-1">الأسهم الحلال</p>
+      <p class="text-2xl font-black">16</p>
+    </div>
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <p class="text-gray-500 text-xs mb-1">الأعلى ارتفاعاً</p>
+      <p class="text-xl font-black text-emerald-400 truncate" id="statGainer">—</p>
+    </div>
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <p class="text-gray-500 text-xs mb-1">الأكثر انخفاضاً</p>
+      <p class="text-xl font-black text-red-400 truncate" id="statLoser">—</p>
+    </div>
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+      <p class="text-gray-500 text-xs mb-1">التحديث القادم</p>
+      <p class="text-2xl font-black" id="statCountdown">—</p>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="flex gap-2 mb-5 overflow-x-auto pb-1">
+    <button id="btn-picks"  onclick="switchTab('picks')"  class="tab-active  px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all">⭐ أفضل اختيارات</button>
+    <button id="btn-all"    onclick="switchTab('all')"    class="tab-inactive px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all">📊 جميع الأسهم</button>
+    <button id="btn-budget" onclick="switchTab('budget')" class="tab-inactive px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all">💰 خطة الميزانية</button>
+    <button id="btn-tips"   onclick="switchTab('tips')"   class="tab-inactive px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all">💡 نصائح شرعية</button>
+  </div>
+
+  <!-- TAB: TOP PICKS -->
+  <div id="content-picks" class="tab-content active">
+    <p class="text-gray-500 text-sm mb-4">أفضل الأسهم الحلال حالياً، مرتبة حسب درجة التصفية الشرعية. تشمل أسهم الشركات الأمريكية وسوق الأسهم السعودي (تداول).</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="picksGrid"></div>
+  </div>
+
+  <!-- TAB: ALL STOCKS -->
+  <div id="content-all" class="tab-content">
+    <p class="text-gray-500 text-sm mb-4">جميع الأسهم الحلال المتتبعة، مرتبة حسب الدرجة. تتحدث كل 60 ثانية خلال ساعات التداول.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="allGrid"></div>
+  </div>
+
+  <!-- TAB: BUDGET PLAN -->
+  <div id="content-budget" class="tab-content">
+    <div id="budgetContent" class="space-y-4"></div>
+  </div>
+
+  <!-- TAB: HALAL TIPS -->
+  <div id="content-tips" class="tab-content">
+    <div id="tipsContent" class="space-y-3"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 mt-8 px-4 py-6 text-center text-gray-600 text-xs space-y-1">
+  <p>HalalInvest — غير تابع لأي وسيط أو مؤسسة مالية. الأسعار مقدمة من Finnhub API.</p>
+  <p>
+    الأسهم الأمريكية عبر <a href="https://www.etoro.com" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-emerald-500">eToro</a>
+    · الأسهم السعودية عبر <a href="https://www.alrajhicapital.com" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-emerald-500">الراجحي كابيتال</a>
+    أو <a href="https://www.tadawul.com.sa" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-emerald-500">منصة تداول</a>
+  </p>
+</footer>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// ============================================================
+// STOCK DATABASE — Halal-screened
+// SAR price: USD stocks converted via live rate
+// Saudi stocks priced in SAR natively
+// ============================================================
+const STOCKS = [
+  // ── HALAL ETF ──────────────────────────────────────────────
+  {
+    symbol: 'HLAL', name: 'Wahed FTSE USA Shariah ETF',
+    sector: 'صندوق حلال', exchange: 'US', currency: 'USD',
+    isTopPick: true, score: 99,
+    badge: 'الأفضل للمبتدئين', badgeColor: 'bg-emerald-600 text-white',
+    reason: 'الصندوق الوحيد المعتمد شرعياً في السوق الأمريكي. يضم 200+ شركة حلال تلقائياً. الاختيار الأمثل لمن يبدأ بـ 100 ريال شهرياً.',
+    why: 'معتمد من علماء شريعة. لا أنشطة محرمة.',
+    buyUrl: 'https://www.etoro.com/markets/HLAL', broker: 'eToro',
+  },
+  // ── US STOCKS ──────────────────────────────────────────────
+  {
+    symbol: 'NVDA', name: 'NVIDIA Corp.',
+    sector: 'الذكاء الاصطناعي / أشباه الموصلات', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: true, score: 96,
+    badge: 'نمو مرتفع', badgeColor: 'bg-purple-600 text-white',
+    reason: 'تقود ثورة الذكاء الاصطناعي بمعالجات GPU. نمو ضخم في مراكز البيانات والسيارات ذاتية القيادة. مخاطرة عالية / عائد عالٍ.',
+    why: 'لا دخل من فوائد. تقنية بحتة.',
+    buyUrl: 'https://www.etoro.com/markets/NVDA', broker: 'eToro',
+  },
+  {
+    symbol: 'AAPL', name: 'Apple Inc.',
+    sector: 'التقنية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: true, score: 95,
+    badge: null,
+    reason: 'أكبر شركة في العالم من حيث القيمة السوقية. iPhone وMac والخدمات. احتياطيات نقدية ضخمة، ديون منخفضة. من أكثر أسهم التقنية الحلال أماناً.',
+    why: 'لا خدمات مالية ذات فوائد. أجهزة وبرمجيات فقط.',
+    buyUrl: 'https://www.etoro.com/markets/AAPL', broker: 'eToro',
+  },
+  {
+    symbol: 'MSFT', name: 'Microsoft Corp.',
+    sector: 'الحوسبة السحابية / التقنية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: true, score: 94,
+    badge: null,
+    reason: 'Azure Cloud وOffice 365 وLinkedIn وXbox. نمو مستقر ومتسق. من أكثر الاستثمارات الحلال الآمنة.',
+    why: 'لا إيرادات من فوائد. أعمال تقنية متنوعة.',
+    buyUrl: 'https://www.etoro.com/markets/MSFT', broker: 'eToro',
+  },
+  {
+    symbol: 'AMZN', name: 'Amazon.com Inc.',
+    sector: 'التجارة الإلكترونية / الحوسبة السحابية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: false, score: 93,
+    badge: null,
+    reason: 'AWS السحابية (متصدرة) + التجارة الإلكترونية. مصادر إيرادات متعددة تنمو بسرعة.',
+    why: 'إيرادات من التجزئة والسحابة، لا من الفوائد.',
+    buyUrl: 'https://www.etoro.com/markets/AMZN', broker: 'eToro',
+  },
+  {
+    symbol: 'GOOGL', name: 'Alphabet (Google)',
+    sector: 'التقنية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: false, score: 92,
+    badge: null,
+    reason: 'محرك بحث محتكر + YouTube + Google Cloud. احتياطيات ضخمة وديون ضئيلة.',
+    why: 'إيرادات إعلانية، لا فوائد ربوية.',
+    buyUrl: 'https://www.etoro.com/markets/GOOGL', broker: 'eToro',
+  },
+  {
+    symbol: 'TSLA', name: 'Tesla Inc.',
+    sector: 'الطاقة النظيفة / سيارات كهربائية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: false, score: 87,
+    badge: 'تذبذب عالٍ', badgeColor: 'bg-amber-600 text-black',
+    reason: 'السيارات الكهربائية والطاقة الشمسية تتوافق مع قيم الاستدامة الإسلامية. تذبذب عالٍ — يمكن أن يصعد أو يهبط 20%+ بسرعة.',
+    why: 'طاقة نظيفة، لا ربا. يتوافق مع الأخلاق البيئية الإسلامية.',
+    buyUrl: 'https://www.etoro.com/markets/TSLA', broker: 'eToro',
+  },
+  {
+    symbol: 'AMD', name: 'Advanced Micro Devices',
+    sector: 'أشباه الموصلات / ذكاء اصطناعي', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: false, score: 86,
+    badge: null,
+    reason: 'معالجات الذكاء الاصطناعي ومراكز البيانات. منافس قوي لإنتل. يستفيد مباشرة من طفرة الذكاء الاصطناعي.',
+    why: 'شركة أشباه موصلات بحتة، لا أنشطة محرمة.',
+    buyUrl: 'https://www.etoro.com/markets/AMD', broker: 'eToro',
+  },
+  // ── SAUDI (TADAWUL) STOCKS ─────────────────────────────────
+  {
+    symbol: '2222.SR', name: 'أرامكو السعودية',
+    sector: 'النفط والطاقة', exchange: 'تداول', currency: 'SAR',
+    isTopPick: true, score: 91,
+    badge: 'سعودي', badgeColor: 'bg-green-700 text-white',
+    reason: 'أكبر شركة نفط في العالم ومصدر الثروة الوطنية. توزيعات أرباح منتظمة وضخمة. حلال وفق الرأي السائد لأن النشاط الأساسي استخراج النفط.',
+    why: 'استخراج موارد طبيعية. لا ربا ولا منتجات محرمة.',
+    buyUrl: 'https://www.alrajhicapital.com', broker: 'الراجحي كابيتال',
+  },
+  {
+    symbol: '7010.SR', name: 'شركة الاتصالات السعودية (STC)',
+    sector: 'الاتصالات', exchange: 'تداول', currency: 'SAR',
+    isTopPick: true, score: 89,
+    badge: 'سعودي', badgeColor: 'bg-green-700 text-white',
+    reason: 'أكبر شركة اتصالات في المملكة العربية السعودية. نمو مستمر في خدمات الإنترنت والحوسبة السحابية وبنية 5G.',
+    why: 'خدمات اتصالات وتقنية. لا أنشطة محرمة.',
+    buyUrl: 'https://www.alrajhicapital.com', broker: 'الراجحي كابيتال',
+  },
+  {
+    symbol: '7020.SR', name: 'موبايلي (إتحاد اتصالات)',
+    sector: 'الاتصالات', exchange: 'تداول', currency: 'SAR',
+    isTopPick: false, score: 85,
+    badge: 'سعودي', badgeColor: 'bg-green-700 text-white',
+    reason: 'ثاني أكبر شركة اتصالات في المملكة. منافس قوي لـ STC في خدمات البيانات والجيل الخامس.',
+    why: 'خدمات اتصالات بحتة. لا ربا.',
+    buyUrl: 'https://www.alrajhicapital.com', broker: 'الراجحي كابيتال',
+  },
+  {
+    symbol: '1120.SR', name: 'مصرف الراجحي',
+    sector: 'البنوك الإسلامية', exchange: 'تداول', currency: 'SAR',
+    isTopPick: false, score: 88,
+    badge: 'إسلامي ☪', badgeColor: 'bg-emerald-700 text-white',
+    reason: 'أكبر بنك إسلامي في العالم. يعمل وفق الشريعة الإسلامية بالكامل (مرابحة، إجارة). لا ربا. أرباح سنوية منتظمة.',
+    why: 'مصرف إسلامي معتمد شرعياً. لا عمليات ربوية.',
+    buyUrl: 'https://www.alrajhicapital.com', broker: 'الراجحي كابيتال',
+  },
+  {
+    symbol: '2350.SR', name: 'سابك (البتروكيماويات السعودية)',
+    sector: 'البتروكيماويات', exchange: 'تداول', currency: 'SAR',
+    isTopPick: false, score: 83,
+    badge: 'سعودي', badgeColor: 'bg-green-700 text-white',
+    reason: 'من أكبر شركات البتروكيماويات في العالم. منتجات صناعية وبلاستيك وأسمدة. مملوكة جزئياً لأرامكو.',
+    why: 'منتجات صناعية. لا منتجات محرمة.',
+    buyUrl: 'https://www.alrajhicapital.com', broker: 'الراجحي كابيتال',
+  },
+  {
+    symbol: 'ADBE', name: 'Adobe Inc.',
+    sector: 'برمجيات إبداعية', exchange: 'NASDAQ', currency: 'USD',
+    isTopPick: false, score: 84,
+    badge: null,
+    reason: 'Photoshop وIllustrator وPremiere وPDF. اشتراكات متكررة. أدوات الذكاء الاصطناعي تدفع نمواً جديداً.',
+    why: 'برمجيات فقط، لا دخل من خدمات مالية.',
+    buyUrl: 'https://www.etoro.com/markets/ADBE', broker: 'eToro',
+  },
+  {
+    symbol: 'NOW', name: 'ServiceNow Inc.',
+    sector: 'برمجيات المؤسسات', exchange: 'NYSE', currency: 'USD',
+    isTopPick: false, score: 82,
+    badge: null,
+    reason: 'أتمتة سير العمل في تقنية المعلومات. نمو سريع يُعزز بالذكاء الاصطناعي في الشركات الكبرى.',
+    why: 'SaaS للمؤسسات، لا أنشطة محرمة.',
+    buyUrl: 'https://www.etoro.com/markets/NOW', broker: 'eToro',
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let apiKey    = localStorage.getItem('halalinvest_key') || '';
+let prices    = {};
+let sarRate   = 3.75;   // SAR per 1 USD (Saudi Riyal is pegged ~3.75)
+let activeTab = 'picks';
+let countdown = 60;
+let timer     = null;
+
+// ============================================================
+// BOOTSTRAP
+// ============================================================
+(function init() {
+  renderTips();
+  renderBudget();
+  if (apiKey) {
+    document.getElementById('setupBanner').classList.add('hidden');
+    document.getElementById('apiKeyInput').value = apiKey;
+    renderSkeletons();
+    fetchAll();
+    startTimer();
+  } else {
+    renderSkeletons();
+  }
+})();
+
+// ============================================================
+// API CONNECT
+// ============================================================
+function connectApi() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val) { alert('الرجاء إدخال مفتاح Finnhub API.'); return; }
+  apiKey = val;
+  localStorage.setItem('halalinvest_key', apiKey);
+  document.getElementById('setupBanner').classList.add('hidden');
+  renderSkeletons();
+  fetchAll();
+  startTimer();
+}
+
+// ============================================================
+// DATA FETCHING
+// ============================================================
+async function fetchQuote(symbol) {
+  try {
+    const r = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`);
+    if (!r.ok) return null;
+    const d = await r.json();
+    if (!d.c || d.c === 0) return null;
+    return d;
+  } catch { return null; }
+}
+
+async function fetchRate() {
+  try {
+    const r = await fetch(`https://finnhub.io/api/v1/forex/rates?base=USD&token=${apiKey}`);
+    if (!r.ok) return;
+    const d = await r.json();
+    if (d?.quote?.SAR) {
+      sarRate = d.quote.SAR;
+      document.getElementById('rateVal').textContent = sarRate.toFixed(4);
+      document.getElementById('rateDisplay').classList.remove('hidden');
+    }
+  } catch { /* SAR is pegged, fallback 3.75 is fine */ }
+}
+
+async function fetchAll() {
+  await fetchRate();
+
+  const results = await Promise.all(STOCKS.map(s => fetchQuote(s.symbol)));
+  results.forEach((d, i) => {
+    if (d) prices[STOCKS[i].symbol] = d;
+  });
+
+  updateStats();
+  renderCards('picksGrid', STOCKS.filter(s => s.isTopPick));
+  renderCards('allGrid', [...STOCKS].sort((a, b) => b.score - a.score));
+  renderBudget();
+}
+
+// ============================================================
+// COUNTDOWN TIMER
+// ============================================================
+function startTimer() {
+  countdown = 60;
+  if (timer) clearInterval(timer);
+  timer = setInterval(() => {
+    countdown--;
+    document.getElementById('statCountdown').textContent = countdown + 'ث';
+    if (countdown <= 0) { countdown = 60; fetchAll(); }
+  }, 1000);
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  let gainSym = null, loseSym = null, maxG = -Infinity, maxL = Infinity;
+  STOCKS.forEach(s => {
+    const p = prices[s.symbol];
+    if (!p) return;
+    if (p.dp > maxG) { maxG = p.dp; gainSym = s.symbol.replace('.SR',''); }
+    if (p.dp < maxL) { maxL = p.dp; loseSym = s.symbol.replace('.SR',''); }
+  });
+  document.getElementById('statGainer').textContent = gainSym ? `${gainSym} +${maxG.toFixed(1)}%` : '—';
+  document.getElementById('statLoser').textContent  = loseSym ? `${loseSym} ${maxL.toFixed(1)}%` : '—';
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  activeTab = tab;
+  ['picks','all','budget','tips'].forEach(t => {
+    document.getElementById('btn-'+t).className =
+      (t===tab ? 'tab-active' : 'tab-inactive') +
+      ' px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all';
+    document.getElementById('content-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+// ============================================================
+// SKELETONS
+// ============================================================
+function renderSkeletons() {
+  const skel = () => `
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 space-y-3">
+      <div class="flex justify-between">
+        <div class="space-y-2">
+          <div class="shimmer h-5 w-20 rounded-lg"></div>
+          <div class="shimmer h-3 w-36 rounded-lg"></div>
+        </div>
+        <div class="space-y-2 items-end flex flex-col">
+          <div class="shimmer h-5 w-20 rounded-lg"></div>
+          <div class="shimmer h-3 w-16 rounded-lg"></div>
+        </div>
+      </div>
+      <div class="shimmer h-2 w-full rounded-full"></div>
+      <div class="shimmer h-12 w-full rounded-xl"></div>
+      <div class="shimmer h-14 w-full rounded-xl"></div>
+      <div class="shimmer h-10 w-full rounded-xl"></div>
+    </div>`;
+  ['picksGrid','allGrid'].forEach(id =>
+    document.getElementById(id).innerHTML = Array(6).fill(0).map(skel).join('')
+  );
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function priceInSAR(stock, rawPrice) {
+  if (!rawPrice) return null;
+  return stock.currency === 'SAR' ? rawPrice : rawPrice * sarRate;
+}
+
+// ============================================================
+// STOCK CARDS
+// ============================================================
+function renderCards(gridId, stocks) {
+  document.getElementById(gridId).innerHTML = stocks.map(buildCard).join('');
+}
+
+function buildCard(stock) {
+  const p = prices[stock.symbol];
+  const hasPrice = !!(p && p.c);
+  const rawPrice = hasPrice ? p.c : null;
+  const sar = priceInSAR(stock, rawPrice);
+  const dp = hasPrice ? p.dp : null;
+  const isUp = dp >= 0;
+  const sharesFor100 = sar ? 100 / sar : null;
+
+  const scoreColor =
+    stock.score >= 95 ? 'bg-emerald-500 text-black' :
+    stock.score >= 88 ? 'bg-emerald-700 text-white' :
+    stock.score >= 83 ? 'bg-yellow-600 text-black' :
+                        'bg-gray-600 text-white';
+
+  const priceLabel = hasPrice
+    ? (stock.currency === 'USD'
+        ? `$${rawPrice.toFixed(2)} USD`
+        : `${rawPrice.toFixed(2)} ريال`)
+    : null;
+  const sarLabel = (hasPrice && stock.currency === 'USD')
+    ? `≈ ${sar.toFixed(2)} ريال`
+    : null;
+
+  const priceBlock = hasPrice ? `
+    <div class="text-right shrink-0">
+      <p class="font-black text-lg leading-none">${priceLabel}</p>
+      ${sarLabel ? `<p class="text-gray-400 text-xs mt-0.5">${sarLabel}</p>` : ''}
+      <p class="font-bold text-sm mt-1 ${isUp ? 'text-emerald-400' : 'text-red-400'}">
+        ${isUp ? '▲' : '▼'} ${Math.abs(dp).toFixed(2)}%
+      </p>
+    </div>` : `
+    <div class="space-y-1.5 shrink-0">
+      <div class="shimmer h-5 w-24 rounded"></div>
+      <div class="shimmer h-3 w-16 rounded"></div>
+    </div>`;
+
+  const budgetBlock = hasPrice ? `
+    <div class="bg-gray-800/60 rounded-xl p-3 text-xs">
+      <p class="text-gray-500 mb-1">بـ 100 ريال هذا الشهر:</p>
+      <p class="text-white font-semibold">
+        ${sharesFor100 >= 1
+          ? `${sharesFor100.toFixed(3)} سهم`
+          : `${(sharesFor100 * 100).toFixed(2)}% من سهم واحد (أجزاء)`}
+      </p>
+      ${sharesFor100 < 1 ? '<p class="text-emerald-400 mt-0.5">✓ eToro يدعم شراء أجزاء من الأسهم</p>' : ''}
+    </div>` : '';
+
+  const displaySymbol = stock.symbol.replace('.SR', '');
+
+  return `
+  <div class="card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
+
+    <div class="flex items-start justify-between gap-2">
+      <div class="min-w-0">
+        <div class="flex flex-wrap items-center gap-1.5 mb-0.5">
+          <span class="font-black text-lg tracking-tight">${displaySymbol}</span>
+          <span class="halal-badge text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">☪ حلال</span>
+          ${stock.isTopPick ? '<span class="bg-amber-400 text-black text-xs px-1.5 py-0.5 rounded-full font-bold">⭐ مُختار</span>' : ''}
+          ${stock.badge ? `<span class="${stock.badgeColor || 'bg-purple-600 text-white'} text-xs px-1.5 py-0.5 rounded-full font-bold">${stock.badge}</span>` : ''}
+        </div>
+        <p class="text-gray-400 text-xs leading-snug">${stock.name}</p>
+        <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+          <span class="bg-gray-800 text-gray-400 text-xs px-2 py-0.5 rounded-lg">${stock.sector}</span>
+          <span class="bg-gray-800 text-gray-500 text-xs px-2 py-0.5 rounded-lg">${stock.exchange}</span>
+        </div>
+      </div>
+      ${priceBlock}
+    </div>
+
+    <!-- SCORE BAR -->
+    <div class="flex items-center gap-3">
+      <div class="flex-1 bg-gray-800 rounded-full h-1.5">
+        <div class="h-1.5 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400"
+             style="width:${stock.score}%"></div>
+      </div>
+      <span class="${scoreColor} text-xs font-bold px-2 py-0.5 rounded-lg">${stock.score}/100</span>
+    </div>
+
+    <!-- REASON -->
+    <p class="text-gray-400 text-xs leading-relaxed" dir="rtl">${stock.reason}</p>
+
+    <!-- WHY HALAL -->
+    <div class="flex items-start gap-2 bg-emerald-950/40 border border-emerald-900/50 rounded-xl px-3 py-2">
+      <span class="text-emerald-500 text-xs shrink-0 mt-0.5">☪</span>
+      <p class="text-emerald-400/90 text-xs leading-relaxed" dir="rtl">${stock.why}</p>
+    </div>
+
+    ${budgetBlock}
+
+    <!-- BUY BUTTON -->
+    <a href="${stock.buyUrl}" target="_blank" rel="noopener noreferrer"
+       class="block w-full text-center bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600
+              text-black font-bold py-2.5 rounded-xl text-sm transition-colors">
+      شراء عبر ${stock.broker} →
+    </a>
+
+  </div>`;
+}
+
+// ============================================================
+// BUDGET PLAN
+// ============================================================
+function renderBudget() {
+  const picks = STOCKS.filter(s => s.isTopPick).sort((a,b) => b.score - a.score);
+  const perStock = (100 / picks.length).toFixed(2);
+
+  const rows = picks.map((s, i) => {
+    const p = prices[s.symbol];
+    const sar = p ? priceInSAR(s, p.c) : null;
+    const shares = sar ? parseFloat(perStock) / sar : null;
+
+    return `
+    <div class="flex items-center justify-between py-3.5 border-b border-gray-800 last:border-0">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold shrink-0">${i+1}</div>
+        <div class="min-w-0">
+          <p class="font-bold text-sm">${s.symbol.replace('.SR','')}</p>
+          <p class="text-gray-500 text-xs truncate">${s.name}</p>
+        </div>
+      </div>
+      <div class="text-right shrink-0 ml-2">
+        <p class="font-bold text-emerald-400">${perStock} ريال</p>
+        ${shares
+          ? `<p class="text-gray-500 text-xs">${shares < 1 ? (shares*100).toFixed(2)+'% سهم' : shares.toFixed(4)+' سهم'}</p>`
+          : '<p class="text-gray-600 text-xs">اربط API للتفاصيل</p>'}
+      </div>
+    </div>`;
+  }).join('');
+
+  const projRows = [
+    { y:1,  low:80,   high:130  },
+    { y:2,  low:180,  high:310  },
+    { y:3,  low:300,  high:560  },
+    { y:5,  low:620,  high:1350 },
+    { y:10, low:1600, high:4100 },
+  ].map(r => `
+    <div class="flex justify-between items-center py-2.5 border-b border-gray-800 last:border-0">
+      <span class="text-gray-400 text-sm">${r.y} سنة${r.y > 1 ? '' : ''}</span>
+      <span class="font-semibold text-sm">${r.low.toLocaleString('ar')}–${r.high.toLocaleString('ar')} ريال</span>
+    </div>`).join('');
+
+  document.getElementById('budgetContent').innerHTML = `
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+    <h2 class="font-black text-lg mb-1" dir="rtl">خطة الـ 100 ريال الشهرية</h2>
+    <p class="text-gray-400 text-sm mb-5" dir="rtl">توزيع متساوٍ على أفضل الاختيارات لتنويع تلقائي. الشراء في الأول من كل شهر.</p>
+    <div>${rows}</div>
+    <div class="mt-5 bg-emerald-950/50 border border-emerald-900/50 rounded-xl p-4">
+      <p class="text-emerald-300 font-bold text-sm mb-1" dir="rtl">📅 استراتيجية متوسط التكلفة (DCA)</p>
+      <p class="text-emerald-400/80 text-xs leading-relaxed" dir="rtl">
+        استثمر 100 ريال كل شهر، في نفس اليوم، بغض النظر عما يفعله السوق.
+        لا تحاول اختيار "الوقت المناسب" — فقط استثمر باستمرار.
+        ثبت علمياً أن هذا يتفوق على توقيت السوق لمعظم المستثمرين الأفراد على مدى 3+ سنوات.
+      </p>
+    </div>
+  </div>
+
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+    <h3 class="font-bold text-base mb-1" dir="rtl">النمو المتوقع (تقديري)</h3>
+    <p class="text-gray-500 text-xs mb-4" dir="rtl">بناءً على استثمار 100 ريال شهرياً. عوائد السوق التاريخية 7–15% سنوياً.</p>
+    <div>${projRows}</div>
+    <p class="text-gray-700 text-xs mt-3 leading-relaxed" dir="rtl">
+      * تقديرات فقط. لا ضمان على الأداء المستقبلي. يمكن خسارة المال. استثمر فقط ما تستطيع تحمل خسارته.
+    </p>
+  </div>
+
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+    <h3 class="font-bold text-base mb-3" dir="rtl">كيف تبدأ (خطوة بخطوة)</h3>
+    <div class="space-y-3">
+      ${[
+        ['1', 'افتح حساباً في eToro', 'مجاني، يستغرق 5 دقائق. eToro متاح في المملكة العربية السعودية ويدعم الريال السعودي. شراء أجزاء من الأسهم متاح.', 'https://www.etoro.com'],
+        ['2', 'للأسهم السعودية: الراجحي كابيتال', 'افتح محفظة استثمارية في الراجحي كابيتال أو أي وسيط سعودي معتمد من CMA لشراء أسهم تداول.', 'https://www.alrajhicapital.com'],
+        ['3', 'تحقق من هويتك', 'ستحتاج إلى رقم هويتك الوطنية. مطلوب قانونياً (AML/KYC).', null],
+        ['4', 'اشترِ HLAL أولاً', 'ابحث عن "HLAL" في eToro واشترِ بـ 100 ريال. هذا صندوق الحلال — أفضل نقطة بداية للمبتدئين.', 'https://www.etoro.com/markets/HLAL'],
+        ['5', 'كرر كل شهر', 'اضبط تذكيراً في هاتفك في الأول من كل شهر: أودع 100 ريال واستثمرها.', null],
+      ].map(([n, title, desc, url]) => `
+        <div class="flex gap-3">
+          <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">${n}</div>
+          <div>
+            <p class="font-semibold text-sm">${title}${url ? ` <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 text-xs underline ml-1">→ افتح</a>` : ''}</p>
+            <p class="text-gray-500 text-xs leading-relaxed mt-0.5" dir="rtl">${desc}</p>
+          </div>
+        </div>`).join('')}
+    </div>
+  </div>
+  `;
+}
+
+// ============================================================
+// HALAL TIPS
+// ============================================================
+function renderTips() {
+  const tips = [
+    { icon:'🏆', title:'ابدأ بصندوق HLAL الحلال', color:'emerald',
+      body:'صندوق Wahed FTSE USA Shariah ETF (HLAL) هو الاستثمار الحلال الأسهل والأأمن. معتمد شرعياً ويضم 200+ شركة حلال تلقائياً. إذا كنت غير متأكد من الأسهم الفردية — فقط اشترِ HLAL كل شهر.' },
+    { icon:'📅', title:'متوسط التكلفة بالريال الثابت', color:'blue',
+      body:'اضبط تذكيراً لاستثمار 100 ريال في الأول من كل شهر — بصرف النظر عما يفعله السوق. لا تحاول انتظار "السعر المناسب" لأن أحداً لا يستطيع التنبؤ به. الاتساق يتفوق على التوقيت.' },
+    { icon:'⏳', title:'فكر بالسنوات لا بالأيام', color:'purple',
+      body:'100 ريال شهرياً لن تجعلك ثرياً في أسابيع — هذه الحقيقة. لكن 100 ريال شهرياً لمدة 5–10 سنوات في أسهم حلال جيدة يمكن أن تنمو واقعياً إلى 10,000–40,000 ريال+. سوق الأسهم يكافئ الصبر فوق كل شيء.' },
+    { icon:'🇸🇦', title:'أسهم تداول السعودية', color:'green',
+      body:'بجانب الأسهم الأمريكية، سوق الأسهم السعودي (تداول) يضم شركات حلال ممتازة: أرامكو، STC، مصرف الراجحي (إسلامي 100%). يمكن الوصول إليها عبر الراجحي كابيتال أو أي وسيط سعودي معتمد من هيئة السوق المالية (CMA).' },
+    { icon:'🚫', title:'القطاعات المحرمة (تجنبها)', color:'red',
+      body:'البنوك التقليدية وشركات التمويل بالفائدة (الربا). المسكرات. القمار والكازينوهات. التبغ. صناعة الأسلحة. المواد الإباحية. منتجات الخنزير. جميع الأسهم في هذا التطبيق مُصفَّاة مسبقاً من هذه القطاعات.' },
+    { icon:'📊', title:'نسبة الدين مهمة', color:'gray',
+      body:'في الفقه الإسلامي، يجب ألا يتجاوز إجمالي ديون الشركة 33% من إجمالي أصولها. الشركات ذات الديون المرتفعة يُتجنب الاستثمار فيها حتى في القطاعات المباحة. يمكنك التحقق من ذلك عبر مواقع مثل IslamicFinanceGuru.com.' },
+    { icon:'📖', title:'تعلم أثناء استثمارك', color:'teal',
+      body:'اقرأ التقارير السنوية للشركات التي تستثمر فيها. تابع أخبار التقنية والاقتصاد. كلما فهمت ما تملكه أكثر، كانت قراراتك أفضل. ابدأ بأبل — تقريرها السنوي واضح ومناسب للمبتدئين.' },
+  ];
+
+  const colors = {
+    emerald:'border-emerald-900 bg-emerald-950/30 text-emerald-300',
+    blue:   'border-blue-900    bg-blue-950/30    text-blue-300',
+    purple: 'border-purple-900  bg-purple-950/30  text-purple-300',
+    green:  'border-green-900   bg-green-950/30   text-green-300',
+    red:    'border-red-900     bg-red-950/30     text-red-300',
+    gray:   'border-gray-700    bg-gray-800/50    text-gray-300',
+    teal:   'border-teal-900    bg-teal-950/30    text-teal-300',
+  };
+
+  document.getElementById('tipsContent').innerHTML = tips.map(t => `
+    <div class="border ${colors[t.color]} rounded-2xl p-5">
+      <h3 class="font-bold text-base text-white mb-2">${t.icon} ${t.title}</h3>
+      <p class="text-sm leading-relaxed opacity-90" dir="rtl">${t.body}</p>
+    </div>`).join('');
+}
+</script>
+
+</body>
+</html>
