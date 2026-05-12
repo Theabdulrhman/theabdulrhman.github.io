@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ABDULRAHMAN — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --red:        #FF6700;
+  --blue:       #061537;
+  --blue-light: #1a4a8a;
+  --blue-glow:  rgba(6,21,55,0.8);
+  --red-glow:   rgba(255,103,0,0.3);
+  --bg:         #07070f;
+  --bg2:        #0b0b18;
+  --bg3:        #0f0f20;
+  --white:      #f0f0f8;
+  --muted:      #9f9fcd;
+  --border:     rgba(255,255,255,0.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+/* ═══ NAV ═══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 64px;
+  background: rgba(7,7,15,0.7); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 900;
+  letter-spacing: 5px; color: var(--red); text-decoration: none;
+  text-shadow: 0 0 30px var(--red-glow);
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-btn {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 8px 20px;
+  text-decoration: none; text-transform: uppercase; transition: border-color 0.25s, color 0.25s;
+}
+.nav-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ═══ HERO ═══ */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+  background: var(--bg);
+}
+
+/* Grid */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* Vignette */
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(7,7,15,0.8) 100%);
+  z-index: 1;
+}
+
+/* Red horizon line */
+.hero-horizon {
+  position: absolute; bottom: 30%; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--red) 30%, var(--red) 70%, transparent 100%);
+  opacity: 0.15; z-index: 1;
+}
+
+/* Side accent lines */
+.hero-line-l, .hero-line-r {
+  position: absolute; top: 0; bottom: 0; width: 1px; z-index: 1;
+}
+.hero-line-l { left: 60px; background: linear-gradient(180deg, transparent, var(--red) 30%, var(--red) 70%, transparent); opacity: 0.12; }
+.hero-line-r { right: 60px; background: linear-gradient(180deg, transparent, var(--red) 30%, var(--red) 70%, transparent); opacity: 0.12; }
+
+.hero-content { position: relative; z-index: 2; max-width: 1000px; padding: 0 40px; }
+
+.hero-eyebrow {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 6px;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 36px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; flex: 1; max-width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--muted));
+}
+.hero-eyebrow::after { background: linear-gradient(270deg, transparent, var(--muted)); }
+
+.hero-name {
+  font-family: 'Orbitron', sans-serif; font-size: clamp(56px, 10vw, 140px);
+  font-weight: 900; text-transform: uppercase; letter-spacing: -3px; line-height: 0.9;
+  margin-bottom: 28px; color: var(--white);
+}
+.hero-name em {
+  font-style: normal; display: block;
+  color: transparent; -webkit-text-stroke: 1.5px var(--red);
+  position: relative;
+}
+.hero-name em::before {
+  content: attr(data-text); position: absolute; left: 4px; top: 3px;
+  color: var(--red); opacity: 0.15;
+  animation: glitch 6s infinite;
+}
+@keyframes glitch {
+  0%,88%,100% { clip-path: none; transform: translateX(0); }
+  89% { clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%); transform: translateX(6px); }
+  90% { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); transform: translateX(-4px); }
+  91% { clip-path: none; transform: translateX(0); }
+}
+
+.hero-tagline {
+  font-family: 'Rajdhani', sans-serif; font-size: clamp(16px, 2vw, 22px);
+  font-weight: 300; letter-spacing: 4px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 52px;
+}
+.hero-tagline strong { color: var(--white); font-weight: 500; }
+
+.hero-actions { display: flex; gap: 16px; justify-content: center; }
+
+.btn-red {
+  font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+  padding: 16px 40px; background: var(--red); color: var(--white); border: none; cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.2s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.btn-red:hover { box-shadow: 0 0 40px var(--red-glow), 0 0 80px rgba(255,0,0,0.1); transform: translateY(-2px); }
+
+.btn-ghost {
+  font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+  padding: 15px 40px; background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+.btn-ghost:hover { border-color: var(--white); }
+
+/* scroll arrow */
+.scroll-indicator {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2;
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.scroll-arrow {
+  width: 1px; height: 50px;
+  background: linear-gradient(180deg, var(--muted), transparent);
+  animation: scrollpulse 2s ease-in-out infinite;
+}
+@keyframes scrollpulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* ═══ MARATHON-STYLE SECTION PATTERN ═══ */
+.m-section {
+  position: relative; padding: 120px 60px;
+}
+.m-section.dark { background: var(--bg); }
+.m-section.darker { background: var(--bg2); }
+
+/* Eyebrow + title pattern (Marathon DNA) */
+.m-eyebrow {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 5px;
+  color: var(--red); text-transform: uppercase; margin-bottom: 20px;
+}
+.m-title {
+  font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 1px; line-height: 1.0; color: var(--white);
+  font-size: clamp(32px, 5vw, 64px);
+}
+.m-body {
+  font-size: 17px; color: var(--muted); line-height: 1.75; max-width: 520px;
+  margin-top: 24px; font-weight: 400;
+}
+.m-body strong { color: var(--white); }
+
+/* Thin red divider */
+.m-divider {
+  height: 1px; margin: 0;
+  background: linear-gradient(90deg, var(--red) 0%, rgba(6,21,55,0.5) 60%, transparent 100%);
+  opacity: 0.4;
+}
+
+/* ═══ ABOUT — Marathon alternating layout ═══ */
+.about-wrap {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;
+}
+.about-visual-wrap { position: relative; }
+.about-frame {
+  aspect-ratio: 3/4; max-width: 380px;
+  background: var(--bg3); position: relative; overflow: hidden;
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+}
+.about-frame-hatch {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, rgba(255,0,0,0.02) 0px, rgba(255,0,0,0.02) 1px, transparent 1px, transparent 10px);
+}
+.about-frame-label {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  color: rgba(255,255,255,0.15); letter-spacing: 2px;
+}
+.about-frame::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  border-style: solid; border-width: 0 30px 30px 0;
+  border-color: transparent var(--red) transparent transparent;
+}
+/* data tags */
+.about-data {
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-left: 2px solid var(--red);
+  padding: 12px 20px;
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted);
+}
+.about-data span { display: block; color: var(--white); font-size: 13px; margin-bottom: 2px; }
+
+.about-cta-row { display: flex; gap: 16px; margin-top: 44px; }
+
+.about-stats { display: flex; gap: 48px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+.stat-num { font-family: 'Orbitron', sans-serif; font-size: 40px; font-weight: 900; color: var(--red); display: block; line-height: 1; }
+.stat-lbl { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-top: 6px; display: block; }
+
+/* ═══ SKILLS — Marathon data-readout style ═══ */
+.skills-header { max-width: 1200px; margin: 0 auto 64px; }
+
+.skills-readout {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.skill-panel {
+  background: var(--bg3); padding: 48px 36px;
+  position: relative; overflow: hidden;
+  border-top: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.skill-panel:hover { background: #121228; }
+.skill-panel::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--red), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.skill-panel:hover::before { opacity: 1; }
+
+.skill-num {
+  font-family: 'Orbitron', sans-serif; font-size: 72px; font-weight: 900;
+  color: rgba(255,0,0,0.06); line-height: 1; position: absolute;
+  top: 20px; right: 24px; pointer-events: none; user-select: none;
+}
+.skill-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--red); margin-bottom: 20px; }
+.skill-title { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+.skill-desc { font-size: 15px; color: var(--muted); line-height: 1.65; margin-bottom: 32px; }
+
+.skill-meter { margin-bottom: 24px; }
+.skill-meter-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.skill-meter-name { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); }
+.skill-meter-val { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--red); }
+.skill-bar-track { height: 2px; background: rgba(255,255,255,0.06); }
+.skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), rgba(255,0,0,0.3)); transition: width 1.4s cubic-bezier(0.4,0,0.2,1); }
+
+.skill-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+.tool-chip {
+  font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  color: var(--muted); border: 1px solid rgba(255,255,255,0.06); padding: 4px 10px;
+}
+
+/* ═══ PROJECTS — Marathon full-bleed alternating ═══ */
+.project-feature {
+  max-width: 1200px; margin: 0 auto 4px;
+  display: grid; grid-template-columns: 1fr 1fr; min-height: 500px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.project-feature.flip { direction: rtl; }
+.project-feature.flip > * { direction: ltr; }
+
+.proj-visual {
+  background: var(--bg3); position: relative; overflow: hidden; min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+}
+.proj-visual-hatch {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, rgba(255,0,0,0.015) 0, rgba(255,0,0,0.015) 1px, transparent 1px, transparent 14px);
+}
+.proj-visual-label {
+  position: relative; z-index: 1;
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  color: rgba(255,255,255,0.1); letter-spacing: 3px; text-align: center;
+}
+.proj-visual-accent {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+.proj-visual-num {
+  position: absolute; top: 24px; left: 24px;
+  font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 4px; color: rgba(255,0,0,0.3);
+}
+
+.proj-info {
+  padding: 60px 52px; display: flex; flex-direction: column; justify-content: center;
+  background: var(--bg3);
+}
+.proj-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--red); margin-bottom: 20px; }
+.proj-title { font-family: 'Orbitron', sans-serif; font-size: clamp(22px, 3vw, 36px); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+.proj-desc { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 36px; }
+.proj-link {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px;
+  color: var(--white); text-decoration: none; display: inline-flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px;
+  transition: color 0.2s, border-color 0.2s, gap 0.2s;
+}
+.proj-link:hover { color: var(--red); border-color: var(--red); gap: 20px; }
+
+/* Small project grid */
+.small-projects {
+  max-width: 1200px; margin: 4px auto 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+}
+.small-proj {
+  background: var(--bg3); padding: 36px 32px; border: 1px solid var(--border);
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.small-proj:hover { border-color: rgba(255,0,0,0.3); background: #121228; }
+.small-proj-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--red); margin-bottom: 14px; }
+.small-proj-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+.small-proj-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.small-proj-arrow { position: absolute; bottom: 28px; right: 28px; font-size: 16px; color: var(--muted); transition: color 0.2s, transform 0.2s; }
+.small-proj:hover .small-proj-arrow { color: var(--red); transform: translateX(4px); }
+
+/* ═══ AV / MEDIA ═══ */
+.av-section-bg {
+  position: relative; padding: 120px 60px;
+  background: var(--bg);
+}
+.av-grid {
+  max-width: 1200px; margin: 64px auto 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.av-tile {
+  background: var(--bg3); padding: 40px 36px; border-top: 1px solid var(--border);
+  position: relative; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between;
+  transition: background 0.3s;
+}
+.av-tile:hover { background: #121228; }
+.av-tile::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 0; height: 2px; background: var(--red);
+  transition: width 0.4s ease;
+}
+.av-tile:hover::before { width: 100%; }
+
+.av-tile-type { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--red); margin-bottom: 16px; }
+.av-tile-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); flex: 1; }
+.av-tile-status {
+  margin-top: 20px; font-family: 'Share Tech Mono', monospace; font-size: 9px;
+  letter-spacing: 3px; color: var(--muted);
+  border: 1px solid var(--border); display: inline-block; padding: 4px 10px;
+}
+
+/* ═══ BLOG — Marathon news cards ═══ */
+.blog-section { padding: 120px 60px; background: var(--bg2); }
+.blog-header { max-width: 1200px; margin: 0 auto 64px; }
+.blog-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px;
+}
+.blog-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  display: grid; grid-template-columns: 180px 1fr; overflow: hidden;
+  text-decoration: none; color: inherit; transition: border-color 0.3s;
+}
+.blog-card:hover { border-color: rgba(255,0,0,0.3); }
+.blog-card:hover .blog-card-arrow { color: var(--red); transform: translateX(6px); }
+
+.blog-card-img {
+  background: var(--bg); position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.blog-card-img-hatch {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, rgba(255,0,0,0.02) 0, rgba(255,0,0,0.02) 1px, transparent 1px, transparent 8px);
+}
+.blog-card-img-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.1); letter-spacing: 2px; z-index: 1; }
+
+.blog-card-body { padding: 28px 32px; display: flex; flex-direction: column; justify-content: space-between; }
+.blog-card-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--red); margin-bottom: 12px; }
+.blog-card-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 600; color: var(--white); line-height: 1.3; margin-bottom: 10px; }
+.blog-card-excerpt { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+.blog-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+.blog-card-arrow { font-size: 16px; color: var(--muted); transition: color 0.2s, transform 0.2s; }
+
+/* ═══ CONTACT — Marathon minimal ═══ */
+.contact-section { padding: 120px 60px; background: var(--bg); }
+.contact-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+
+.contact-left .m-body { max-width: 400px; }
+
+/* Data links */
+.contact-data { margin-top: 48px; display: flex; flex-direction: column; gap: 2px; }
+.contact-data-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; background: var(--bg3); border-top: 1px solid var(--border);
+  text-decoration: none; color: inherit;
+  transition: border-top-color 0.25s, background 0.25s;
+}
+.contact-data-row:hover { border-top-color: var(--red); background: #121228; }
+.contact-data-key { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); }
+.contact-data-val { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--white); letter-spacing: 1px; }
+.contact-data-row:hover .contact-data-val { color: var(--red); }
+
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 2px; }
+.form-row-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--muted); margin-bottom: 6px; display: block;
+}
+.cp-input {
+  width: 100%; background: var(--bg3); border: none; border-top: 1px solid var(--border);
+  padding: 16px 20px; font-family: 'Rajdhani', sans-serif; font-size: 16px;
+  color: var(--white); outline: none; transition: border-top-color 0.25s;
+  margin-bottom: 2px;
+}
+.cp-input:focus { border-top-color: var(--red); }
+.cp-input::placeholder { color: var(--muted); font-size: 14px; }
+.cp-textarea { min-height: 140px; resize: vertical; }
+.form-submit {
+  font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 18px 40px; background: var(--red); color: var(--white); border: none; cursor: pointer;
+  transition: box-shadow 0.3s; margin-top: 4px; align-self: flex-start;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+.form-submit:hover { box-shadow: 0 0 40px var(--red-glow); }
+
+/* ═══ FOOTER ═══ */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 60px;
+}
+.footer-top {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding-bottom: 48px; border-bottom: 1px solid var(--border);
+}
+.footer-logo-block .footer-logo {
+  font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900;
+  letter-spacing: 5px; color: var(--red); display: block; margin-bottom: 10px;
+}
+.footer-logo-block p { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); }
+.footer-nav { display: flex; gap: 32px; list-style: none; margin-top: 6px; }
+.footer-nav a { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+.footer-nav a:hover { color: var(--white); }
+.footer-bottom {
+  max-width: 1200px; margin: 36px auto 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); }
+.footer-quote { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: rgba(255,0,0,0.25); max-width: 400px; text-align: right; line-height: 1.6; text-transform: uppercase; }
+
+/* ═══ REVEAL ═══ */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 960px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .m-section, .blog-section, .contact-section, .av-section-bg, footer { padding-left: 24px; padding-right: 24px; }
+  .about-wrap, .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  .skills-readout, .av-grid, .small-projects { grid-template-columns: 1fr; }
+  .project-feature, .project-feature.flip { grid-template-columns: 1fr; direction: ltr; }
+  .proj-visual { min-height: 220px; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-card { grid-template-columns: 1fr; }
+  .blog-card-img { min-height: 120px; }
+  .footer-top { flex-direction: column; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-quote { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── LOADING SCREEN ─── -->
+<div id="loader">
+  <canvas id="loader-canvas"></canvas>
+  <div id="loader-content">
+    <div id="loader-sub">PORTFOLIO // INITIALIZING</div>
+    <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+    <div id="loader-status">LOADING ASSETS...</div>
+  </div>
+</div>
+
+<style>
+#loader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: #000; display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.6s ease;
+}
+#loader.fade-out { opacity: 0; pointer-events: none; }
+#loader-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#loader-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 20px;
+}
+#loader-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; letter-spacing: 6px; color: #ff0000; text-transform: uppercase;
+  opacity: 0; animation: ldrFadeIn 0.4s 0.3s forwards;
+  text-shadow: 0 0 20px rgba(255,0,0,0.6);
+}
+#loader-bar-wrap {
+  width: clamp(200px, 40vw, 400px); height: 2px;
+  background: rgba(255,255,255,0.06);
+  opacity: 0; animation: ldrFadeIn 0.4s 0.6s forwards;
+}
+#loader-bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #ff0000, #0a54ff);
+  box-shadow: 0 0 16px #ff0000; transition: width 0.1s linear; position: relative;
+}
+#loader-bar::after {
+  content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #fff;
+}
+#loader-status {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px;
+  color: rgba(255,255,255,0.25); text-transform: uppercase;
+  opacity: 0; animation: ldrFadeIn 0.4s 0.8s forwards; min-height: 16px;
+}
+@keyframes ldrFadeIn { to { opacity: 1; } }
+</style>
+
+<script>
+(function() {
+  const canvas = document.getElementById('loader-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, rafId, frame = 0;
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const buf = document.createElement('canvas');
+  const bctx = buf.getContext('2d');
+
+  function buildBase() {
+    buf.width = W; buf.height = H;
+    bctx.fillStyle = '#000';
+    bctx.fillRect(0, 0, W, H);
+    const imgData = bctx.createImageData(W, H);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = Math.random() * 20;
+      d[i]   = v + (Math.random() < 0.003 ? 200 : 0);
+      d[i+1] = v;
+      d[i+2] = v + (Math.random() < 0.003 ? 180 : 0);
+      d[i+3] = 255;
+    }
+    bctx.putImageData(imgData, 0, 0);
+    bctx.fillStyle = 'rgba(0,0,0,0.22)';
+    for (let y = 0; y < H; y += 3) bctx.fillRect(0, y, W, 1);
+    if (Math.random() < 0.05) { bctx.fillStyle = 'rgba(255,0,0,0.05)'; bctx.fillRect(Math.random()*W, 0, Math.random()*4+1, H); }
+    if (Math.random() < 0.05) { bctx.fillStyle = 'rgba(10,84,255,0.05)'; bctx.fillRect(Math.random()*W, 0, Math.random()*4+1, H); }
+  }
+
+  function drawFrame() {
+    buildBase();
+    ctx.clearRect(0, 0, W, H);
+
+    // Full-page glitch slice
+    const heavy = Math.random() < 0.12;
+    const sliceCount = heavy ? Math.floor(Math.random() * 24 + 10) : Math.floor(Math.random() * 5 + 1);
+    let y = 0;
+    while (y < H) {
+      const sh = heavy ? Math.random() * 50 + 4 : Math.random() * 10 + 2;
+      const offset = Math.random() < (heavy ? 0.5 : 0.15) ? (Math.random() - 0.5) * (heavy ? 120 : 40) : 0;
+      ctx.drawImage(buf, 0, y, W, sh, offset, y, W, sh);
+      y += sh;
+    }
+
+    // Chromatic aberration bands
+    if (Math.random() < 0.35) {
+      const ay = Math.random() * H;
+      const ah = Math.random() * H * 0.4 + 8;
+      ctx.globalCompositeOperation = 'screen';
+      ctx.globalAlpha = 0.05 + Math.random() * 0.1;
+      ctx.fillStyle = '#ff0000';
+      ctx.fillRect(0, ay, W, ah);
+      ctx.fillStyle = '#0a54ff';
+      ctx.fillRect(0, ay + ah * 0.3, W, ah * 0.6);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+    }
+
+    // Hard corruption block
+    if (Math.random() < 0.1) {
+      const sy = Math.floor(Math.random() * H);
+      const sh2 = Math.floor(Math.random() * 50 + 4);
+      const dx = (Math.random() - 0.5) * 150;
+      ctx.drawImage(canvas, 0, sy, W, sh2, dx, sy, W, sh2);
+    }
+
+    // White flash
+    if (Math.random() < 0.006) {
+      ctx.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.18) + ')';
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    // Red tear lines
+    const tears = Math.floor(Math.random() * 4);
+    for (let t = 0; t < tears; t++) {
+      ctx.fillStyle = 'rgba(255,0,0,' + (Math.random() * 0.3) + ')';
+      ctx.fillRect(0, Math.random() * H, W, 1);
+    }
+
+    // Blue tear lines
+    const btears = Math.floor(Math.random() * 2);
+    for (let t = 0; t < btears; t++) {
+      ctx.fillStyle = 'rgba(10,84,255,' + (Math.random() * 0.2) + ')';
+      ctx.fillRect(0, Math.random() * H, W, 1);
+    }
+
+    frame++;
+    rafId = requestAnimationFrame(drawFrame);
+  }
+  drawFrame();
+
+  const bar = document.getElementById('loader-bar');
+  const status = document.getElementById('loader-status');
+  const messages = ['LOADING ASSETS...','DECRYPTING FILES...','SYNCING DATA...','CALIBRATING UI...','PORTFOLIO READY'];
+  let progress = 0, msgIdx = 0;
+
+  function tick() {
+    progress = Math.min(progress + Math.random() * 4 + 0.5, 100);
+    bar.style.width = progress + '%';
+    const ni = Math.min(Math.floor(progress / 22), messages.length - 1);
+    if (ni !== msgIdx) { msgIdx = ni; status.textContent = messages[msgIdx]; }
+    if (progress < 100) {
+      setTimeout(tick, 35 + Math.random() * 65);
+    } else {
+      status.textContent = 'PORTFOLIO READY';
+      setTimeout(() => {
+        cancelAnimationFrame(rafId);
+        const loader = document.getElementById('loader');
+        loader.classList.add('fade-out');
+        setTimeout(() => loader.remove(), 700);
+      }, 600);
+    }
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#hero" class="nav-logo">ABDULRAHMAN</a>
+  <ul class="nav-links" style="width: 383px; height: 26px; line-height: 1.45">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#blog">REFLECTION</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Get In Touch</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero" data-screen-label="01 Hero">
+  <!-- YouTube background -->
+  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;">
+    <div id="yt-bg" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;height:100vh;min-width:100%;min-height:56.25vw;opacity:0.45;"></div>
+  </div>
+  <!-- Dark overlay so text stays readable -->
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(7,7,15,0.55) 0%, rgba(7,7,15,0.3) 40%, rgba(7,7,15,0.75) 100%);z-index:1;"></div>
+  <div class="hero-grid" style="z-index:2;"></div>
+  <div class="hero-vignette" style="z-index:3;"></div>
+  <div class="hero-horizon" style="z-index:3;"></div>
+  <div class="hero-line-l" style="z-index:3;"></div>
+  <div class="hero-line-r" style="z-index:3;"></div>
+
+  <div class="hero-content" style="position:relative;z-index:4;">
+    <div class="hero-eyebrow">Media &amp; Communications · Data Science · Visual Design</div>
+    <h1 class="hero-name">ABDUL
+
+PORTFOLIO</h1>
+    <p class="hero-tagline">
+      <strong>Future Data Scientist</strong> · UI/UX Designer · Visual Storyteller<span style="color: rgb(120, 120, 179)"></span><span style="color: rgb(120, 163, 179)"></span>
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-red">View My Work</a>
+      <a href="#about" class="btn-ghost">Learn More</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" style="position:relative;z-index:4;">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<div class="m-divider"></div>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" class="m-section dark" data-screen-label="02 About">
+  <div class="about-wrap reveal">
+    <div class="about-visual-wrap">
+      <div class="about-frame">
+        <img src="uploads/WhatsApp Image 2026-04-25 at 14.29.29.jpeg"
+          style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+      </div>
+      <div class="about-data">
+        <span>ABDULRAHMAN</span>
+        MEDIA &amp; COMMS · 2025
+      </div>
+    </div>
+
+    <div>
+      <div class="m-eyebrow">// PROFILE.DATA</div>
+      <h2 class="m-title">ABOUT ME</h2>
+      <p class="m-body" style="color: rgb(170, 170, 198)">Hey, everyone! My name's Abdulrahman and I'm a 20-year-old student from Saudi Arabia studying in Australia.<span style="color: #a3a3cd"></span></p>
+      <p class="m-body" style="margin-top: 16px; color: rgb(159, 159, 205)">When I'm not in class, you'll probably find me gaming (Bayonetta 2, Cyberpunk, or Silent Hill 2) or listening to bands like Linkin Park and Evanescence. I also have a massive passion for visual storytelling, filming, and photography.
+Before this year, I thought I already knew how media worked because of past projects and friends in the industry. I was wrong! This course completely changed my perspective. It pushed me to try new things, like writing newsroom articles, properly framing camera shots, and producing my own podcasts. In fact, these new skills inspired me to start working on my own directing project right now.
+Here is a digital portfolio of some projects I've accomplished during my time at Trinity College. I hope you enjoy it!<span style="color: rgb(163, 163, 205)"></span></p>
+      <div class="about-stats">
+        <div><span class="stat-num">3+</span><span class="stat-lbl">Core Skills</span></div>
+        <div><span class="stat-num">∞</span><span class="stat-lbl">Ideas</span></div>
+        <div><span class="stat-num">2026</span><span class="stat-lbl">Active</span></div>
+      </div>
+      <div class="about-cta-row">
+        <a href="#projects" class="btn-red">View Projects</a>
+        <a href="#contact" class="btn-ghost">Contact Me</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="m-divider"></div>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects" class="m-section dark" data-screen-label="04 Projects">
+  <div class="reveal" style="max-width:1200px; margin:0 auto 64px;">
+    <div class="m-eyebrow">// PROJECTS.DIR</div>
+    <h2 class="m-title">PROJECTS</h2>
+  </div>
+
+  <!-- Featured — Marathon alternating layout -->
+  <div class="project-feature reveal">
+    <div class="proj-visual" style="background:#07070f;padding:0;overflow:hidden;position:relative;min-height:400px;">
+      <div class="proj-visual-num" style="z-index:2;position:relative;">
+</div>
+      <div id="podcast-gate" onclick="launchPodcast()" style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:linear-gradient(135deg,#07070f 60%,#0f0f20);cursor:pointer;">
+        <div style="width:72px;height:72px;border-radius:50%;border:2px solid #FF6700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 32px rgba(255,103,0,0.35);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#FF6700"><polygon points="6,3 20,12 6,21"></polygon></svg>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.4);text-transform:uppercase;">Click to play podcast</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);"></div>
+      </div>
+      <div id="podcast-frame-slot" style="position:absolute;inset:0;display:none;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">FEATURED // PODCAST</div>
+      <h3 class="proj-title">TRINITY NEWSROOM PROJECT PODCAST</h3>
+      <p class="proj-desc">As part of our coursework, I worked with Blue Jen and Sept to record a podcast segment for the Trinity News Room on 90.7 FM. The purpose of this audio piece was to examine the intense pressure international students face regarding success and mental health. 2. Target Audience/s The target audience is international students aged 17 to 25 of all genders. They are currently in tertiary education and come from varied socio-economic backgrounds. We targeted this demographic because they deal directly with this specific academic burnout. 3. Contributions and Challenges Working as the segment host, my main contribution was introducing the show and guiding the conversation. This task brought out my strength in verbal communication. But I had a major weakness. I really struggled to actively listen. I often just waited to read my next scripted question instead of engaging. 4. Key Learning Point/s Producing this podcast taught me how audio media builds intimate, relatable discussions. Next time, I would definitely rely less on my notes and ask more spontaneous follow-up questions to deepen the conversation.</p>
+      <a href="#" class="proj-link">
+</a>
+    </div>
+  </div>
+
+  <!-- Second project flipped -->
+  <div class="project-feature flip reveal" style="margin-top:4px;">
+    <div class="proj-visual" style="background:#07070f;padding:0;overflow:hidden;position:relative;min-height:400px;cursor:pointer;" onclick="openArticle()">
+      <div class="proj-visual-num" style="z-index:2;position:relative;">02</div>
+      <!-- Article preview fills full box -->
+      <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:space-between;padding:48px 44px;">
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;margin-bottom:24px;">REAL LIFE &nbsp;·&nbsp; FEB 2026 &nbsp;·&nbsp; NEWSROOM PROJECT</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:clamp(28px,3.5vw,42px);font-weight:900;color:#f0f0f8;line-height:1.05;margin-bottom:20px;text-transform:uppercase;">Happiness<br>on the<br>Menu</div>
+          <div style="width:48px;height:2px;background:#FF6700;margin-bottom:24px;"></div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;color:#9f9fcd;line-height:1.65;max-width:360px;">Why universities should teach happiness — and what one Yale professor's viral course says about what students really need.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#9f9fcd;">Abdulrahman Alshehri et al.</div>
+          <div style="display:flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#FF6700;text-decoration:underline;text-underline-offset:4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF6700"><polygon points="6,3 20,12 6,21"></polygon></svg>
+            READ ARTICLE
+          </div>
+        </div>
+      </div>
+      <!-- Subtle hatch bg -->
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(255,103,0,0.01) 0,rgba(255,103,0,0.01) 1px,transparent 1px,transparent 14px);z-index:1;"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);z-index:6;"></div>
+      <!-- Hover overlay -->
+      <div id="proj2-hover" style="position:absolute;inset:0;z-index:4;background:rgba(255,103,0,0.04);opacity:0;transition:opacity 0.3s;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">02 // ARTICLE</div>
+      <h3 class="proj-title">TRINITY NEWSROOM PROJECT ARTICLE </h3>
+      <p class="proj-desc">As part of our coursework, I worked with my teammates, Blue Jen and Sept, to record a podcast segment for the Trinity News Room on 90.7 FM. The purpose of this audio piece was to closely examine the intense pressure international students face regarding academic success and their own mental health. Working as the segment host, my main contribution was introducing the show, posing questions, and generally guiding the flow of the conversation. This task really brought out my strength in verbal communication. But I had a major weakness. I really struggled to actively listen to the answers. I often just waited to read my next scripted question instead of actually engaging naturally. Producing this podcast taught me exactly how audio media builds highly intimate, relatable discussions without any visual distractions. It also sparked a genuine interest in audio production for me! If I did this again, I would definitely rely much less on my prepared notes and ask more spontaneous follow-up questions to naturally deepen the conversation.</p>
+      <a href="#" class="proj-link">
+</a>
+    </div>
+  </div>
+
+
+  <!-- Project 03 -->
+  <div class="project-feature reveal" style="margin-top:4px;">
+    <div class="proj-visual" style="background:#f5f5f5;padding:0;overflow:hidden;position:relative;min-height:400px;cursor:pointer;" onclick="openLightbox()">
+      <div class="proj-visual-num" style="z-index:2;position:relative;color:rgba(0,0,0,0.2);">03</div>
+      <img src="uploads/Screenshot 2026-03-26 at 16.50.55.png" alt="Brand Map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'"/>
+      <!-- Click to expand hint -->
+      <div style="position:absolute;bottom:16px;right:16px;z-index:5;background:rgba(7,7,15,0.75);border:1px solid rgba(255,103,0,0.4);padding:6px 14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:#FF6700;backdrop-filter:blur(4px);">⤢ EXPAND</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);z-index:5;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">03 // PHOTOGRAPHY</div>
+      <h3 class="proj-title">BRAND MAP</h3>
+      <p class="proj-desc">As part of our coursework, I designed a visual brand map poster. The purpose of this design was to explore my own identity by showcasing the specific companies I feel personally connected to. I chose Aramco to represent my Saudi roots, Steam for my love of gaming, and Kodak and Sony for my passion for photography. I even included Linux because I appreciate simple, open-source software! Working as the sole creator, my main contribution was deciding the overall layout and selecting these brands. This project really highlighted my strength in honest self-reflection. But my weakness was definitely the graphic design itself. I kept the visual layout very basic. I only used plain text and simple lines instead of advanced formatting. Creating this map showed me how much the consumer brands we love actually communicate our personal stories. If I did this again, I would definitely spend time learning proper design software to make the visual layout look much more professional.</p>
+      <a href="#" class="proj-link"></a>
+    </div>
+  </div>
+
+  <!-- Project 04 -->
+  <div class="project-feature flip reveal" style="margin-top:4px;">
+        <div class="proj-visual" style="background:#07070f;padding:0;overflow:hidden;position:relative;min-height:400px;cursor:pointer;" onclick="openPosterLightbox()">
+      <div class="proj-visual-num" style="z-index:2;position:relative;">04</div>
+      <img src="uploads/image_2026-05-12_195822227.png" alt="Movie Poster" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:16px;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'"/>
+      <div style="position:absolute;bottom:16px;right:16px;z-index:5;background:rgba(7,7,15,0.75);border:1px solid rgba(255,103,0,0.4);padding:6px 14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:#FF6700;backdrop-filter:blur(4px);">⤢ EXPAND</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);z-index:5;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">04 // VIDEO</div>
+      <h3 class="proj-title">FILM MARKETING TASK:
+MOVIE POSTER </h3>
+      <p class="proj-desc"> As part of a generative AI experiment, I designed a theatrical movie poster for an original sci-fi film called "The Worm Turns". The purpose was to visually capture the dark, mysterious tone of the movie by placing the main character, Angela, in front of a massive black hole.
+
+2. Target Audience/s
+My target audience is sci-fi fans aged 15 to 50, inclusive of all genders. They have secondary or tertiary education levels and come from varied socio-economic backgrounds. I targeted this demographic because they actively enjoy realistic, dramatic space stories.
+
+3. Contributions and Challenges
+As the sole creator, I used Canva AI and ChatGPT to generate raw visual elements like the astronaut and alien, then manually combined them. My biggest strength was my creative vision for the cinematic layout. But my main weakness was the actual prompt engineering — I spent hours fighting text prompts just to get the background right.
+
+4. Key Learning Point/s
+This project taught me how powerfully visual shadows communicate tension. Next time, I would study how to write highly specific AI prompts to avoid wasting time.</p>
+      <a href="#" class="proj-link">
+</a>
+    </div>
+  </div>
+
+  <!-- Project 05 -->
+  <div class="project-feature reveal" style="margin-top:4px;">
+        <div class="proj-visual" style="background:#07070f;padding:0;overflow:hidden;position:relative;min-height:400px;cursor:pointer;" onclick="openJustification()">
+      <div class="proj-visual-num" style="z-index:2;position:relative;">05</div>
+      <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:space-between;padding:48px 44px;">
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;margin-bottom:24px;">FILM MARKETING &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; MEDIA TASK</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:900;color:#f0f0f8;line-height:1.05;margin-bottom:20px;text-transform:uppercase;">FILM MARTKING TASK JUSTFICATION</div>
+          <div style="width:48px;height:2px;background:#FF6700;margin-bottom:24px;"></div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:15px;color:#9f9fcd;line-height:1.65;max-width:360px;">Poster design rationale, target audience analysis, and placement strategies for a sci-fi film marketing campaign.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#9f9fcd;">Abdulrahman Alshehri</div>
+          <div style="display:flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#FF6700;text-decoration:underline;text-underline-offset:4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF6700"><polygon points="6,3 20,12 6,21"></polygon></svg>
+            READ TASK
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(255,103,0,0.01) 0,rgba(255,103,0,0.01) 1px,transparent 1px,transparent 14px);z-index:1;"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);z-index:6;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">05 // DATA</div>
+      <h3 class="proj-title">FILM MARKETING TASK</h3>
+      <p class="proj-desc">As part of our coursework, I developed a comprehensive marketing pitch and placement strategy for my sci-fi film, "The Worm Turns". The purpose was to determine exactly where to display promotional materials — like tram stops, theatres, and TikTok — to maximise audience reach.
+
+2. Target Audience/s
+The target audience for this campaign is sci-fi fans aged 15 to 50 across all genders. They hold secondary or tertiary education levels and represent varied socio-economic statuses. I targeted them because the story features a relatable, stressed scientist rather than a wealthy superhero.
+
+3. Contributions and Challenges
+Working as the sole strategist, I planned the entire physical and digital rollout. This task highlighted my strength in understanding real-world advertising placement. My main weakness, however, was completely ignoring the financial cost. I planned massive campaigns without considering how expensive tram stop ads actually are.
+
+4. Key Learning Point/s
+This project taught me that even the best poster will fail if placed in the wrong location. Next time, I would research actual advertising budgets to make my strategy realistic.</p>
+      <a href="#" class="proj-link">
+</a>
+    </div>
+  </div>
+
+  <!-- Project 06 -->
+  <div class="project-feature flip reveal" style="margin-top:4px;">
+        <div class="proj-visual" style="background:#07070f;padding:0;overflow:hidden;position:relative;min-height:400px;cursor:pointer;" onclick="openPhotosLightbox()">
+      <div class="proj-visual-num" style="z-index:2;position:relative;">
+</div>
+      <img src="uploads/image_2026-05-12_202516119.png" alt="Photography" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;padding:16px;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'"/>
+      <div style="position:absolute;bottom:16px;right:16px;z-index:5;background:rgba(7,7,15,0.75);border:1px solid rgba(255,103,0,0.4);padding:6px 14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:#FF6700;backdrop-filter:blur(4px);">⤢ EXPAND</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6700,transparent);z-index:5;"></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-eyebrow">06 // BRANDING</div>
+      <h3 class="proj-title">PHOTOGRAPHY PRESENTATION TASK</h3>
+      <p class="proj-desc">As part of our study on Film Language, I worked with my group mates, Wasayf and Lam, to put together a photography presentation. The purpose of this project was to showcase how different shot sizes and lighting angles convey meaning. I specifically captured two moody, nighttime photographs—one featuring a blurred figure on a dark road, and another showing a dimly lit city skyline. My main contribution was shooting these photos, editing our final iMovie presentation, and recording the voiceover. This project really highlighted my strength in video editing. But my time management was a major weakness. Trying to coordinate our nighttime shoots alongside editing the actual video pushed me constantly behind schedule. Creating this taught me how heavily film language influences the mood of a message without using any words. It also showed me the true value of group cooperation. If I did this again, I would schedule our editing sessions much earlier so we are not rushing the final iMovie cut</p>
+      <a href="#" class="proj-link">
+</a>
+    </div>
+  </div>
+
+</section>
+
+<div class="m-divider"></div>
+
+<!-- ─── BLOG ─── -->
+<section id="blog" class="blog-section" data-screen-label="06 Blog">
+  <div class="blog-header reveal">
+    <div class="m-eyebrow">// REFLECTIONS.MD</div>
+    <h2 class="m-title">OVERALL FINAL REFLECTION</h2>
+  </div>
+
+  <div class="reveal" style="max-width:1200px;margin:0 auto;">
+    <div style="background:var(--bg3);border:1px solid var(--border);border-top:2px solid var(--red);padding:48px 52px;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--red);margin-bottom:32px;">// MY REFLECTION</div>
+      <div
+        id="reflection-area"
+        contenteditable="true"
+        spellcheck="true"
+        data-placeholder="Click here to write your reflection..."
+        style="width:100%;min-height:520px;background:transparent;border:none;outline:none;font-family:'Rajdhani',sans-serif;font-size:19px;line-height:1.85;color:var(--white);white-space:pre-wrap;word-break:break-word;"
+      >Before this course, I genuinely thought I already had a solid grip on how the media worked. I had friends in the industry. I had even worked on a few small projects myself. But the most interesting insight from this subject was realizing how much of the underlying mechanics I was blind to. Media is so much more than just the funny videos I watch or the posters I scroll past every day. It is built on codes, conventions, and highly intentional framing. A significant issue I had not realised until now is that I was only ever looking at the surface of the content I consumed. I never questioned how a shot was lit or why an advertisement was placed at a specific tram stop. I now realise that true media literacy means understanding the hidden mechanics behind every single soundbite, text font, and design choice.
+Throughout this journey at Trinity College, I pushed myself to try completely new platforms and formats. This experience is relevant to me because it took me entirely out of my comfort zone. For instance, I used to find audio production intimidating. But working with Blue Jen and Sept on our "Happiness on the Menu" podcast segment sparked a genuine passion for audio storytelling. I loved the smooth production process. It felt amazing to build an intimate conversation from scratch. This reminded me of the idea that media does not always need flashy visuals to connect with an audience. A possible implication could be that simple, raw conversations are sometimes the most powerful way to share a message.
+Of course, I faced some major challenges along the way. My time management was a huge weakness. Trying to juggle the heavy reading for the newsroom article alongside shooting our PR video ad pushed me to my absolute limit. I felt overwhelmed. I also had to coordinate nighttime shoots for my photography presentation with Wasayf and Lam, which constantly put us behind schedule. On top of that, I struggled heavily when designing my film poster for The Worm Turns. I fought constantly with Canva AI and ChatGPT text prompts just to get the background black hole exactly right. But having realised the importance of visual storytelling, I can now understand exactly how to combine different elements manually to build a cohesive cinematic layout. This experience will change the way I view my own limits and deadlines. Being able to see my struggles in this way is extremely valuable for me because it forced me to adapt and grow as a creator.
+This chapter is finally coming to a close. I am walking away as a much sharper, more analytical consumer. This is beneficial to me as I look toward my future creative goals. In order to further develop this skill, I will continue applying these lessons to real-world content. I am currently planning my own personal podcast and working on a directing project. Next time I tackle a massive workload with overlapping deadlines, I will manage my stress by spacing out my production schedules much earlier. I am so grateful for everything I learned this year. I am ready to take these skills forward.</div>
+      <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:16px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);">AUTO-SAVED</span>
+        <span id="reflection-wc" style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);">0 WORDS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="m-divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="contact-section" data-screen-label="07 Contact">
+  <div class="contact-inner reveal">
+    <div class="contact-left">
+      <div class="m-eyebrow">// CONNECT.SH</div>
+      <h2 class="m-title">Get In<br>Touch</h2>
+      <p class="m-body">Whether you're a prospective employer, collaborator, or curious visitor — I'd love to hear from you.</p>
+
+      <div class="contact-data">
+        <a href="mailto:abdulrahman@email.com" class="contact-data-row">
+          <span class="contact-data-key">EMAIL</span>
+          <span class="contact-data-val">pr.abdulrhmanalshehri@gmail.com</span>
+        </a>
+        <a href="#" class="contact-data-row">
+          <span class="contact-data-key">LINKEDIN</span>
+          <span class="contact-data-val">https://www.linkedin.com/in/abdulrahman-alshehri-53a7a9296/</span>
+        </a>
+        <a href="#" class="contact-data-row">
+          <span class="contact-data-key">GITHUB</span>
+          <span class="contact-data-val">https://github.com/Theabdulrhman</span>
+        </a>
+        <a href="#" class="contact-data-row">
+          <span class="contact-data-key">INSTAGRAM</span>
+          <span class="contact-data-val">@mushsroomgarden</span>
+        </a>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="return false;">
+      <div>
+        <label class="form-row-label">YOUR NAME</label>
+        <input class="cp-input" type="text" placeholder="Enter your name" />
+      </div>
+      <div>
+        <label class="form-row-label">EMAIL ADDRESS</label>
+        <input class="cp-input" type="email" placeholder="Enter your email" />
+      </div>
+      <div>
+        <label class="form-row-label">MESSAGE</label>
+        <textarea class="cp-input cp-textarea" placeholder="Your message..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Transmit Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo-block">
+      <span class="footer-logo">ABDULRAHMAN</span>
+      <p>MEDIA &amp; COMMUNICATIONS · FUTURE DATA SCIENTIST</p>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#media"></a></li>
+      <li><a href="#blog">Reflections</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 ABDULRAHMAN — ALL RIGHTS RESERVED</div>
+    <div class="footer-quote">
+</div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav highlight
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  links.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--white)' : ''; });
+}, { passive: true });
+
+// Tweaks
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentRed": "#FF6700",
+  "accentBlue": "#0a54ff",
+  "darkBg": "#000000",
+  "heroGlitch": true
+}/*EDITMODE-END*/;
+
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') showTweaks();
+  if (e.data?.type === '__deactivate_edit_mode') hideTweaks();
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+let panel = null;
+function showTweaks() {
+  if (panel) { panel.style.display = 'flex'; return; }
+  panel = document.createElement('div');
+  panel.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:#0b0b18;border:1px solid rgba(255,0,0,0.3);padding:24px;min-width:260px;font-family:Share Tech Mono,monospace;box-shadow:0 0 40px rgba(255,0,0,0.1);display:flex;flex-direction:column;gap:16px;';
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:10px;letter-spacing:4px;color:#ff0000;">/// TWEAKS</span>
+      <button id="tc" style="background:none;border:none;color:#5a5a78;cursor:pointer;font-size:18px;line-height:1;">×</button>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:3px;color:#5a5a78;margin-bottom:6px;">RED ACCENT</div>
+      <input type="color" id="tw-r" value="${TWEAK_DEFAULTS.accentRed}" style="width:100%;height:32px;border:1px solid #1a1a2e;background:none;cursor:pointer;" />
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:3px;color:#5a5a78;margin-bottom:6px;">DEEP BLUE</div>
+      <input type="color" id="tw-b" value="${TWEAK_DEFAULTS.accentBlue}" style="width:100%;height:32px;border:1px solid #1a1a2e;background:none;cursor:pointer;" />
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:3px;color:#5a5a78;margin-bottom:6px;">BACKGROUND</div>
+      <input type="color" id="tw-bg" value="${TWEAK_DEFAULTS.darkBg}" style="width:100%;height:32px;border:1px solid #1a1a2e;background:none;cursor:pointer;" />
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;font-size:9px;letter-spacing:3px;color:#5a5a78;cursor:pointer;">
+      <input type="checkbox" id="tw-g" ${TWEAK_DEFAULTS.heroGlitch ? 'checked' : ''} /> GLITCH EFFECT
+    </label>`;
+  document.body.appendChild(panel);
+  document.getElementById('tc').onclick = () => { hideTweaks(); window.parent.postMessage({ type:'__edit_mode_dismissed' }, '*'); };
+  const apply = () => {
+    const r = document.getElementById('tw-r').value;
+    const b = document.getElementById('tw-b').value;
+    const bg = document.getElementById('tw-bg').value;
+    const g = document.getElementById('tw-g').checked;
+    document.documentElement.style.setProperty('--red', r);
+    document.documentElement.style.setProperty('--blue', b);
+    document.documentElement.style.setProperty('--bg', bg);
+    const em = document.querySelector('.hero-name em');
+    if (em) em.style.animationPlayState = g ? 'running' : 'paused';
+    window.parent.postMessage({ type:'__edit_mode_set_keys', edits:{ accentRed:r, accentBlue:b, darkBg:bg, heroGlitch:g } }, '*');
+  };
+  ['tw-r','tw-b','tw-bg','tw-g'].forEach(id => document.getElementById(id).addEventListener('input', apply));
+}
+function hideTweaks() { if (panel) panel.style.display = 'none'; }
+</script>
+
+<script>
+// YouTube background
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+var ytPlayer;
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('yt-bg', {
+    videoId: 'ciU1WY_QKBM',
+    playerVars: {
+      autoplay: 1, mute: 1, loop: 1, playlist: 'ciU1WY_QKBM',
+      controls: 0, showinfo: 0, rel: 0, iv_load_policy: 3,
+      modestbranding: 1, playsinline: 1, disablekb: 1, fs: 0
+    },
+    events: {
+      onReady: function(e) { e.target.playVideo(); e.target.setPlaybackQuality('hd1080'); },
+      onStateChange: function(e) { if (e.data === YT.PlayerState.ENDED) e.target.playVideo(); }
+    }
+  });
+}
+</script>
+
+<script>
+function launchPodcast() {
+  const gate = document.getElementById('podcast-gate');
+  const slot = document.getElementById('podcast-frame-slot');
+  if (!slot) return;
+  gate.style.display = 'none';
+  slot.style.display = 'block';
+  slot.innerHTML = '<iframe src="https://trinityunimelb.sharepoint.com/sites/AS25-M-C-HUB/_layouts/15/embed.aspx?UniqueId=fbff4be3-8225-48d0-bb0e-eb876b184b0d&embed=%7B%22ust%22%3Afalse%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen title="Trinity College Podcast" style="border:none;position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>';
+}
+</script>
+
+<!-- ─── ARTICLE MODAL ─── -->
+<div id="article-modal" style="display:none;position:fixed;inset:0;z-index:5000;background:rgba(7,7,15,0.98);overflow-y:auto;backdrop-filter:blur(12px);">
+  <!-- Close bar -->
+  <div style="position:sticky;top:0;z-index:10;background:rgba(7,7,15,0.95);border-bottom:1px solid rgba(255,103,0,0.2);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;">// REFLECTIONS.MD / ARTICLE-01</div>
+    <button onclick="closeArticle()" style="background:none;border:1px solid rgba(255,255,255,0.15);color:#9f9fcd;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;padding:8px 20px;cursor:pointer;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#FF6700';this.style.color='#FF6700';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#9f9fcd';">✕ CLOSE</button>
+  </div>
+
+  <!-- Article content -->
+  <div style="max-width:740px;margin:0 auto;padding:80px 40px 120px;">
+    <!-- Meta -->
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;margin-bottom:24px;">REAL LIFE &nbsp;·&nbsp; FEB 2026 &nbsp;·&nbsp; TRINITY NEWSROOM PROJECT</div>
+    <!-- Title -->
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(32px,5vw,56px);font-weight:900;color:#f0f0f8;line-height:1.05;margin-bottom:20px;text-transform:uppercase;">Happiness<br>on the Menu</h1>
+    <!-- Byline -->
+    <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:#9f9fcd;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);">By Abdulrahman Alshehri, Chalalin Jirojvanichakorn &amp; Haoming Luo</div>
+
+    <!-- Body -->
+    <div style="font-family:'Rajdhani',sans-serif;font-size:19px;line-height:1.8;color:#c8c8e0;">
+
+      <p style="margin-bottom:28px;">Happiness is weird. Everyone wants it and everyone posts about it, but no one explains it to us and how does it work. If you ask five random people about what happiness for them is, you most likely get five completely different answers. For some of the people it's being financially success, and for others it's being in peace. For someone else, it's canceling plans and getting more than eight hours of sleep. Happiness is something very personal which makes it both powerful and confusing.</p>
+
+      <p style="margin-bottom:48px;">Still, most of us grow up hearing the same thing, which is to work hard and get a good grade, build a strong career, make money and happiness will spawn in your life — it's treated like a bonus level you unlock after suffering in life. The problem is that real life does not always follow that script.</p>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:700;color:#f0f0f8;margin:48px 0 20px;text-transform:uppercase;letter-spacing:1px;">All This Success… Now Why Am I Tired?</h2>
+
+      <p style="margin-bottom:28px;">People reach far away in their life exactly where they have dreamed of and still feel anxious, burned out, or weirdly empty. That gap shows a weird thing — if success does somehow create happiness, why are we not happy?</p>
+
+      <p style="margin-bottom:28px;">For a long time, happiness has been treated as something soft or secondary, almost like a side topic. Universities focus on developing skills, knowledge, and professional competence — all of them are important. But emotional wellbeing is often left behind for students to figure out on their own.</p>
+
+      <p style="margin-bottom:28px;">Even top Universities have begun to recognize this gap. At Yale University, psychology professor Laurie Santos created a class called <em>The Science of Well-Being</em>. You would expect students at one of the highest ranking universities around the world to care much more about finance, law, medicine, or politics. Instead, this course about happiness became one of the most popular classes in Yale's history. Many high achieving students chose to study wellbeing — these were not lazy students trying to avoid important subjects. They were ambitious, trying to understand how to live well.</p>
+
+      <p style="margin-bottom:28px;">This course later evolved into <em>The Science of Wellbeing</em> and reached millions of learners online. That level of interest is not random curiosity. It proves how much students need it. And it showed that academic success and emotional stability are not the same thing. Clearly people want tools not to only perform well, but to feel well.</p>
+
+      <!-- Pull quote -->
+      <blockquote style="border-left:3px solid #FF6700;padding:20px 32px;margin:48px 0;background:rgba(255,103,0,0.04);">
+        <p style="font-family:'Orbitron',sans-serif;font-size:clamp(15px,2vw,20px);font-weight:600;color:#f0f0f8;line-height:1.4;font-style:normal;">"If one of the highest universities can make space for happiness in the classroom, others can too."</p>
+      </blockquote>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:700;color:#f0f0f8;margin:48px 0 20px;text-transform:uppercase;letter-spacing:1px;">Happiness Isn't Soft — It's Strategic</h2>
+
+      <p style="margin-bottom:28px;">Teaching happiness doesn't mean lowering standards or replacing important subjects. It means introducing research-based knowledge about how habits change mood, how social connections affect mental health, how constant comparison affects self-worth, and how purpose develops overtime rather than being magically discovered.</p>
+
+      <p style="margin-bottom:48px;">These are not just theoretical ideas — they are practical insights backed by psychology. Universities impose daily routines: study schedules, exams, workloads, social pressures, and competition. This can highly damage student sleep schedules, mental health, and physical health. Even students who graduate at the top of the class may still feel exhausted and anxious, feeling lost and disconnected from the outside world.</p>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:700;color:#f0f0f8;margin:48px 0 20px;text-transform:uppercase;letter-spacing:1px;">Building Lives, Not Just Careers</h2>
+
+      <p style="margin-bottom:28px;">Education not only helps students prepare for careers — it also helps them know how to live meaningful and sustainable lives. A university degree is not just a ticket to a job; it guides students to learn, improve self-awareness, and even discover themselves. Even though grades are often used to measure success, they do not guarantee happiness.</p>
+
+      <p style="margin-bottom:28px;">Ambition and success are important — they give us motivation toward our life goals — but without balance and emotional strength, ambition can turn into burnout. Many students graduate exhausted and anxious, overthinking whether they measure up even with an impressive academic record. Academic knowledge is often not automatically connected with personal wellbeing.</p>
+
+      <p style="margin-bottom:48px;">This leads to the point that happiness should not be assumed to be a personal problem for students to figure out alone. It is essential for universities to add wellbeing as part of education. If added to the curriculum, it will help students prepare for life and support the emotional skills they need.</p>
+
+      <!-- Footer -->
+      <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:32px;margin-top:48px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#5a5a78;">
+        TRINITY NEWSROOM PROJECT &nbsp;·&nbsp; AT3 MEDIA &amp; COMMUNICATIONS &nbsp;·&nbsp; 2026
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openArticle() {
+  document.getElementById('article-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeArticle() {
+  document.getElementById('article-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeArticle();
+});
+</script>
+
+<script>
+(function(){
+  var v = document.querySelector('[id="proj2-hover"]');
+  if (!v) return;
+  var p = v.parentElement;
+  p.addEventListener('mouseover', function(){ v.style.opacity='1'; });
+  p.addEventListener('mouseout', function(){ v.style.opacity='0'; });
+})();
+</script>
+
+<!-- ─── BRAND MAP LIGHTBOX ─── -->
+<div id="brandmap-lightbox" style="display:none;position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;" onclick="closeLightbox()">
+  <div style="position:absolute;top:20px;right:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#9f9fcd;cursor:pointer;border:1px solid rgba(255,255,255,0.15);padding:8px 20px;" onclick="closeLightbox()">✕ CLOSE</div>
+  <div style="position:absolute;top:20px;left:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;">// BRAND MAP</div>
+  <img src="uploads/Screenshot 2026-03-26 at 16.50.55.png" alt="Brand Map" style="max-width:92vw;max-height:88vh;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,0.8);"/>
+</div>
+
+<script>
+function openLightbox() {
+  var lb = document.getElementById('brandmap-lightbox');
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('brandmap-lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+<!-- ─── MOVIE POSTER LIGHTBOX ─── -->
+<div id="poster-lightbox" style="display:none;position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;" onclick="closePosterLightbox()">
+  <div style="position:absolute;top:20px;right:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#9f9fcd;cursor:pointer;border:1px solid rgba(255,255,255,0.15);padding:8px 20px;">✕ CLOSE</div>
+  <div style="position:absolute;top:20px;left:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;">// FILM MARKETING TASK — MOVIE POSTER</div>
+  <img src="uploads/image_2026-05-12_195822227.png" alt="Movie Poster" style="max-width:92vw;max-height:88vh;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,0.8);"/>
+</div>
+
+<script>
+function openPosterLightbox() {
+  var lb = document.getElementById('poster-lightbox');
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closePosterLightbox() {
+  document.getElementById('poster-lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeLightbox(); closePosterLightbox(); }
+});
+</script>
+
+<!-- ─── JUSTIFICATION MODAL ─── -->
+<div id="justification-modal" style="display:none;position:fixed;inset:0;z-index:5000;background:rgba(7,7,15,0.98);overflow-y:auto;backdrop-filter:blur(12px);">
+  <div style="position:sticky;top:0;z-index:10;background:rgba(7,7,15,0.95);border-bottom:1px solid rgba(255,103,0,0.2);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;">// FILM MARKETING / MEDIA-JUSTIFICATION</div>
+    <button onclick="closeJustification()" style="background:none;border:1px solid rgba(255,255,255,0.15);color:#9f9fcd;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;padding:8px 20px;cursor:pointer;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#FF6700';this.style.color='#FF6700';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#9f9fcd';">✕ CLOSE</button>
+  </div>
+  <div style="max-width:740px;margin:0 auto;padding:80px 40px 120px;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;margin-bottom:24px;">FILM MARKETING TASK &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; MEDIA &amp; COMMUNICATIONS</div>
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:#f0f0f8;line-height:1.05;margin-bottom:20px;text-transform:uppercase;">The Worm Turns —<br>Media Justification</h1>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:#9f9fcd;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);">By Abdulrahman Alshehri</div>
+
+    <div style="font-family:'Rajdhani',sans-serif;font-size:19px;line-height:1.8;color:#c8c8e0;">
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:#f0f0f8;margin:0 0 20px;text-transform:uppercase;letter-spacing:1px;">Introduction</h2>
+      <p style="margin-bottom:40px;">The film I chose is <em>"The Worm Turns"</em> (2026), a science fiction movie directed by the Russo Brothers. The movie is about space, aliens, and the journey of a scientist named Angela — rated MA15+ for violence, shocking scenes, and strong language. A short description: <em>"A troubled scientist discovers a new alien lifeform, but the truth she uncovers threatens everything she believes in."</em></p>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:#f0f0f8;margin:40px 0 20px;text-transform:uppercase;letter-spacing:1px;">Target Audience</h2>
+      <p style="margin-bottom:40px;">The main audience is people between 15–50 who enjoy space movies like <em>Interstellar</em>, <em>The Martian</em>, and <em>Gravity</em>. The film mainly targets teenagers who enjoy strong visuals and exciting stories. Angela is designed to be relatable — not a superhero, just a normal person dealing with stress and sadness. The movie's realism also attracts new-age sci-fi lovers, keeping viewers hooked through drama and danger.</p>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:#f0f0f8;margin:40px 0 20px;text-transform:uppercase;letter-spacing:1px;">Theatrical Movie Poster Design</h2>
+      <p style="margin-bottom:40px;">A black background connotes space, darkness, and mystery — making other elements stand out. Angela is placed centre-poster to establish her as the main character, designed to look sad, lost, and worried, conveying that the film is about her struggles as much as the sci-fi elements. Shadows, dramatic lighting, and dark colours signal that something dangerous is coming — matching widespread sci-fi standards.</p>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:#f0f0f8;margin:40px 0 20px;text-transform:uppercase;letter-spacing:1px;">Poster Placement Strategies</h2>
+
+      <div style="border-left:3px solid #FF6700;padding:20px 28px;margin:0 0 28px;background:rgba(255,103,0,0.04);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:#FF6700;margin-bottom:10px;text-transform:uppercase;">Placement 01 — Tram Stops</div>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Location:</strong> Tram stops in busy areas</p>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Function:</strong> People wait at tram stops every day for a few minutes — giving them time to notice and read the poster. Bright lights keep it visible at night.</p>
+        <p style="margin:0;"><strong style="color:#f0f0f8;">Intended Effect:</strong> Repeated exposure keeps the film in mind, increasing the chance people talk about it or look it up online.</p>
+      </div>
+
+      <div style="border-left:3px solid #FF6700;padding:20px 28px;margin:0 0 28px;background:rgba(255,103,0,0.04);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:#FF6700;margin-bottom:10px;text-transform:uppercase;">Placement 02 — Movie Theatres</div>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Location:</strong> Inside theatre hallways and near ticket counters</p>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Function:</strong> Cinema visitors are already thinking about watching a movie — making them more likely to pay attention.</p>
+        <p style="margin:0;"><strong style="color:#f0f0f8;">Intended Effect:</strong> Encourages future ticket purchases and helps people remember the film on their next cinema visit.</p>
+      </div>
+
+      <div style="border-left:3px solid #FF6700;padding:20px 28px;margin:0 0 48px;background:rgba(255,103,0,0.04);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:#FF6700;margin-bottom:10px;text-transform:uppercase;">Placement 03 — Social Media</div>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Location:</strong> Instagram, TikTok, YouTube, and Facebook</p>
+        <p style="margin:0 0 8px;"><strong style="color:#f0f0f8;">Function:</strong> The poster appears as ads, posts, or stories — spreading quickly to many people even if they are not sci-fi fans.</p>
+        <p style="margin:0;"><strong style="color:#f0f0f8;">Intended Effect:</strong> Reaches a global audience across all age groups, creates conversation and shares, and attracts viewers who would never see a physical poster.</p>
+      </div>
+
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:#f0f0f8;margin:0 0 20px;text-transform:uppercase;letter-spacing:1px;">Conclusion</h2>
+      <p style="margin-bottom:48px;">The purpose of the film marketing is to attract a large audience and create strong interest. Through a dramatic and emotional poster placed in busy public areas, cinemas, and online platforms, the marketing will reach many people quickly. When potential audiences see the poster repeatedly, they will remember the film, feel curious about Angela's story, and want to discover what happens in <em>The Worm Turns</em>.</p>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:32px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#5a5a78;">
+        FILM MARKETING TASK &nbsp;·&nbsp; MEDIA &amp; COMMUNICATIONS &nbsp;·&nbsp; TRINITY COLLEGE 2026
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openJustification() {
+  document.getElementById('justification-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeJustification() {
+  document.getElementById('justification-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeJustification(); }
+});
+</script>
+
+<!-- ─── PHOTOS LIGHTBOX ─── -->
+<div id="photos-lightbox" style="display:none;position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;" onclick="closePhotosLightbox()">
+  <div style="position:absolute;top:20px;right:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#9f9fcd;cursor:pointer;border:1px solid rgba(255,255,255,0.15);padding:8px 20px;">✕ CLOSE</div>
+  <div style="position:absolute;top:20px;left:24px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:#FF6700;">// PHOTOGRAPHY TASK</div>
+  <img src="uploads/image_2026-05-12_202516119.png" alt="Photography" style="max-width:92vw;max-height:88vh;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,0.8);"/>
+</div>
+
+<script>
+function openPhotosLightbox() {
+  var lb = document.getElementById('photos-lightbox');
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closePhotosLightbox() {
+  document.getElementById('photos-lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>
+
+<script>
+(function(){
+  var ta = document.getElementById('reflection-area');
+  var wc = document.getElementById('reflection-wc');
+  if (!ta) return;
+  var saved = localStorage.getItem('reflection');
+  if (saved) ta.innerHTML = saved;
+  ta.style.caretColor = '#FF6700';
+  // Placeholder styling
+  var style = document.createElement('style');
+  style.textContent = '#reflection-area:empty:before{content:attr(data-placeholder);color:#5a5a78;pointer-events:none;}';
+  document.head.appendChild(style);
+  function updateWC() {
+    var text = ta.innerText || '';
+    var words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    wc.textContent = words + ' WORD' + (words !== 1 ? 'S' : '');
+    localStorage.setItem('reflection', ta.innerHTML);
+  }
+  updateWC();
+  ta.addEventListener('input', updateWC);
+})();
+</script>
+
+<!-- ─── MUSIC PLAYER ─── -->
+<style>
+#music-player {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 4000;
+  font-family: 'Share Tech Mono', monospace;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+#music-bar {
+  background: rgba(7,7,15,0.97); border-top: 1px solid rgba(255,103,0,0.3);
+  backdrop-filter: blur(20px); padding: 12px 40px;
+  display: flex; align-items: center; gap: 24px;
+}
+#music-playlist {
+  background: #0b0b18; border-top: 1px solid rgba(255,103,0,0.2);
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+#music-playlist.open { max-height: 360px; overflow-y: auto; }
+.music-track {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 40px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.2s;
+}
+.music-track:hover { background: rgba(255,103,0,0.05); }
+.music-track.active { border-left: 2px solid #FF6700; }
+.music-track-num { font-size: 9px; letter-spacing: 2px; color: #5a5a78; width: 24px; }
+.music-track-name { font-size: 11px; letter-spacing: 2px; color: #9f9fcd; flex: 1; }
+.music-track.active .music-track-name { color: #FF6700; }
+.music-track-dur { font-size: 9px; letter-spacing: 1px; color: #5a5a78; }
+.mp-btn {
+  background: none; border: none; cursor: pointer; padding: 6px;
+  color: #9f9fcd; transition: color 0.2s; font-size: 18px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.mp-btn:hover { color: #FF6700; }
+.mp-btn.primary {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,103,0,0.4) !important;
+  background: rgba(255,103,0,0.08) !important;
+  color: #FF6700 !important;
+}
+.mp-btn.primary:hover { background: rgba(255,103,0,0.2) !important; }
+#mp-progress-wrap {
+  flex: 1; height: 2px; background: rgba(255,255,255,0.08);
+  position: relative; cursor: pointer; border-radius: 2px;
+}
+#mp-progress { height: 100%; background: #FF6700; width: 0%; border-radius: 2px; pointer-events: none; }
+#mp-time { font-size: 9px; letter-spacing: 2px; color: #5a5a78; white-space: nowrap; }
+#mp-title-wrap { min-width: 0; }
+#mp-label { font-size: 8px; letter-spacing: 4px; color: #FF6700; margin-bottom: 3px; }
+#mp-title { font-size: 11px; letter-spacing: 2px; color: #f0f0f8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+#mp-toggle-playlist {
+  font-size: 9px; letter-spacing: 3px; color: #5a5a78; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08); padding: 5px 12px;
+  transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+  background: none;
+}
+#mp-toggle-playlist:hover { color: #FF6700; border-color: rgba(255,103,0,0.4); }
+</style>
+
+<div id="music-player">
+  <!-- Playlist drawer -->
+  <div id="music-playlist">
+    <!-- tracks injected by JS -->
+  </div>
+  <!-- Player bar -->
+  <div id="music-bar">
+    <!-- Left: track info -->
+    <div id="mp-title-wrap">
+      <div id="mp-label">// NOW PLAYING</div>
+      <div id="mp-title">SELECT A TRACK</div>
+    </div>
+    <!-- Controls -->
+    <button class="mp-btn" id="mp-prev" title="Previous">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+    </button>
+    <button class="mp-btn primary" id="mp-play" title="Play / Pause">
+      <svg id="mp-play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"/></svg>
+    </button>
+    <button class="mp-btn" id="mp-next" title="Next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.02 2.14L8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+    </button>
+    <!-- Progress -->
+    <div id="mp-progress-wrap">
+      <div id="mp-progress"></div>
+    </div>
+    <div id="mp-time">0:00 / 0:00</div>
+    <!-- Playlist toggle -->
+    <!-- Shuffle -->
+    <button id="mp-shuffle" title="Shuffle" style="background:none;border:1px solid rgba(255,103,0,0.4);cursor:pointer;padding:5px 10px;color:#FF6700;transition:color 0.2s,border-color 0.2s;display:flex;align-items:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+    </button>
+    <!-- Volume -->
+    <div style="display:flex;align-items:center;gap:8px;min-width:100px;">
+      <svg id="mp-vol-icon" width="14" height="14" viewBox="0 0 24 24" fill="#5a5a78" style="cursor:pointer;flex-shrink:0;" onclick="toggleMute()">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+      </svg>
+      <input type="range" id="mp-volume" min="0" max="100" value="80"
+        style="width:80px;accent-color:#FF6700;cursor:pointer;height:2px;background:rgba(255,255,255,0.08);"/>
+    </div>
+    <button id="mp-toggle-playlist">PLAYLIST ↑</button>
+  </div>
+</div>
+
+<audio id="mp-audio"></audio>
+
+<script>
+(function(){
+  var tracks = [
+    { title: "Paramore — That's What You Get", src: "uploads/Paramore - That's What You Get (Lyrics).mp3" },
+    { title: "Men I Trust — The Landkeeper",   src: "uploads/The Landkeeper.mp3" },
+    { title: "Clairo — Juna",                  src: "uploads/Clairo - Juna.mp3" },
+    { title: "Evanescence — My Immortal",         src: "uploads/Evanescence - My Immortal.mp3" },
+    { title: "boygenius — Souvenir",              src: "uploads/boygenius - Souvenir.mp3" },
+    { title: "Ghostly Kisses — Stay",             src: "uploads/Ghostly Kisses - Stay.mp3" },
+    { title: "Alvvays — Velveteen",                src: "uploads/Alvvays - Velveteen.mp3" },
+    { title: "Daft Punk — Veridis Quo",            src: "uploads/Daft Punk - Veridis Quo.mp3" },
+    { title: "Lumière",                            src: "uploads/Lumière.mp3" },
+    { title: "Theme of Laura",                     src: "uploads/Theme of Laura.mp3" },
+    { title: "Linkin Park — Lost (Live)",           src: "uploads/Lost (Live) - Linkin Park.mp3" },
+    { title: "BENEE — Somebody That I Used To Know", src: "uploads/BENEE - Somebody That I Used To Know.mp3" },
+  ];
+
+  var audio       = document.getElementById('mp-audio');
+  var playBtn     = document.getElementById('mp-play');
+  var playIcon    = document.getElementById('mp-play-icon');
+  var prevBtn     = document.getElementById('mp-prev');
+  var nextBtn     = document.getElementById('mp-next');
+  var progress    = document.getElementById('mp-progress');
+  var progressWrap= document.getElementById('mp-progress-wrap');
+  var timeEl      = document.getElementById('mp-time');
+  var titleEl     = document.getElementById('mp-title');
+  var playlist    = document.getElementById('music-playlist');
+  var toggleBtn   = document.getElementById('mp-toggle-playlist');
+  var volSlider   = document.getElementById('mp-volume');
+  var shuffleBtn  = document.getElementById('mp-shuffle');
+  var currentIdx  = 0;
+  var isPlaying   = false;
+  var isShuffled  = true;
+  var shuffleOrder= [];
+
+  function fmt(s){
+    if(isNaN(s)) return '0:00';
+    var m=Math.floor(s/60),sec=Math.floor(s%60);
+    return m+':'+(sec<10?'0':'')+sec;
+  }
+
+  function buildShuffle(){
+    shuffleOrder = tracks.map(function(_,i){return i;});
+    for(var i=shuffleOrder.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=shuffleOrder[i]; shuffleOrder[i]=shuffleOrder[j]; shuffleOrder[j]=tmp;
+    }
+  }
+  buildShuffle();
+
+  function nextIdx(){ 
+    if(isShuffled){
+      var pos=shuffleOrder.indexOf(currentIdx);
+      return shuffleOrder[(pos+1)%shuffleOrder.length];
+    }
+    return (currentIdx+1)%tracks.length;
+  }
+  function prevIdx(){
+    if(isShuffled){
+      var pos=shuffleOrder.indexOf(currentIdx);
+      return shuffleOrder[(pos-1+shuffleOrder.length)%shuffleOrder.length];
+    }
+    return (currentIdx-1+tracks.length)%tracks.length;
+  }
+
+  function renderPlaylist(){
+    playlist.innerHTML='';
+    tracks.forEach(function(t,i){
+      var row=document.createElement('div');
+      row.className='music-track'+(i===currentIdx?' active':'');
+      row.innerHTML='<div class="music-track-num">0'+(i+1)+'</div><div class="music-track-name">'+t.title+'</div>';
+      row.addEventListener('click',function(){ loadTrack(i); play(); });
+      playlist.appendChild(row);
+    });
+  }
+
+  function loadTrack(i){
+    currentIdx=i;
+    var t=tracks[i];
+    if(!t){titleEl.textContent='SELECT A TRACK';return;}
+    audio.src=t.src;
+    titleEl.textContent=t.title;
+    renderPlaylist();
+  }
+
+  function play(){
+    if(!tracks.length) return;
+    audio.play().catch(function(){});
+    isPlaying=true;
+    playIcon.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+  }
+  function pause(){
+    audio.pause();
+    isPlaying=false;
+    playIcon.innerHTML='<polygon points="6,3 20,12 6,21"/>';
+  }
+
+  playBtn.addEventListener('click',function(){
+    if(!tracks.length) return;
+    if(!audio.src) loadTrack(0);
+    isPlaying ? pause() : play();
+  });
+  prevBtn.addEventListener('click',function(){
+    loadTrack(prevIdx()); if(isPlaying) play();
+  });
+  nextBtn.addEventListener('click',function(){
+    loadTrack(nextIdx()); if(isPlaying) play();
+  });
+  audio.addEventListener('ended',function(){ loadTrack(nextIdx()); play(); });
+
+  audio.addEventListener('timeupdate',function(){
+    if(!audio.duration) return;
+    progress.style.width=(audio.currentTime/audio.duration*100)+'%';
+    timeEl.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);
+  });
+
+  progressWrap.addEventListener('click',function(e){
+    if(!audio.duration) return;
+    var rect=progressWrap.getBoundingClientRect();
+    audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
+  });
+
+  // Volume — wired inside IIFE so function is in scope
+  audio.volume = 0.15;
+  volSlider.value = 15;
+  volSlider.addEventListener('input', function(){
+    audio.volume = this.value / 100;
+    audio.muted = this.value == 0;
+  });
+
+  var mutedBefore = 80;
+  document.getElementById('mp-vol-icon').addEventListener('click', function(){
+    if(audio.muted || audio.volume===0){
+      audio.muted=false;
+      audio.volume=mutedBefore/100;
+      volSlider.value=mutedBefore;
+    } else {
+      mutedBefore=volSlider.value;
+      audio.muted=true;
+      volSlider.value=0;
+    }
+  });
+
+  // Shuffle
+  shuffleBtn.addEventListener('click', function(){
+    isShuffled=!isShuffled;
+    buildShuffle();
+    shuffleBtn.style.color=isShuffled?'#FF6700':'#9f9fcd';
+    shuffleBtn.style.borderColor=isShuffled?'rgba(255,103,0,0.4)':'rgba(255,255,255,0.08)';
+  });
+
+  // Playlist toggle
+  var playlistOpen=false;
+  toggleBtn.addEventListener('click',function(){
+    playlistOpen=!playlistOpen;
+    playlist.classList.toggle('open',playlistOpen);
+    toggleBtn.textContent=playlistOpen?'PLAYLIST ↓':'PLAYLIST ↑';
+  });
+
+  // Autoplay on first user interaction
+  function tryAutoplay(){
+    loadTrack(startIdx);
+    play();
+    document.removeEventListener('click', tryAutoplay);
+    document.removeEventListener('keydown', tryAutoplay);
+  }
+  // Start on a random track each page load
+  var startIdx = Math.floor(Math.random() * tracks.length);
+  // Try immediate autoplay, fall back to first interaction
+  loadTrack(startIdx);
+  audio.play().then(function(){ isPlaying=true; playIcon.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'; }).catch(function(){
+    document.addEventListener('click', tryAutoplay);
+    document.addEventListener('keydown', tryAutoplay);
+  });
+
+  renderPlaylist();
+
+  // Expose global pause so other scripts can stop the player
+  window.pauseMusic = function() {
+    pause();
+  };
+})();
+</script>
+</body>
+</html>
+
+<style id="__om-edit-overrides">
+#hero :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,label,span,a,em,strong,small,td,th,caption) >span { color: rgb(124, 203, 232) !important }
+#projects :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,label,span,a,em,strong,small,td,th,caption) p:nth-child(2) { color: rgb(163, 163, 205) !important }
+#projects :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,label,span,a,em,strong,small,td,th,caption) >:is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,label,span,a,em,strong,small,td,th,caption) >p:nth-child(3) { color: rgb(163, 163, 205) !important }
+</style>
